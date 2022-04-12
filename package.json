@@ -18,6 +18,7 @@
   "homepage": "https://github.com/CeliaGjt/Project_Web#readme",
   "dependencies": {
     "discord.js": "^13.6.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "rivescript": "^2.2.0"
   }
 }
