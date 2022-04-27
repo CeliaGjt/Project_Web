@@ -6,7 +6,7 @@ const {token} = require('./config.json');
 
 var chloe = new RiveScript();
 
-chloe.loadDirectory("../brain").then(loading_done).catch(loading_error)
+chloe.loadDirectory("./brain").then(loading_done).catch(loading_error)
 
 function loading_done() {
   console.log("Chloé a fini d'apprendre ");

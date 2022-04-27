@@ -28,12 +28,262 @@
 	<script>
 		document.addEventListener('DOMContentLoaded',init);
 
-	</script>
+		let chatBotListElt;
+		let modal;
+		let inputName;
+		let inputStatus;
+		let newChatBotButton;
+		let addChatBotButton;
+
+		function init(){
+			chatBotListElt = document.getElementById("chatBotListUL");
+			
+			modal = document.getElementById("newChatBotModal");
+			inputName = document.getElementById("inputName");
+			inputStatus = document.getElementById("inputStatus");
+
+			reloadList();
+			
+
+			newChatBotButton = document.getElementById("newChatBotButton");
+			newChatBotButton.addEventListener("click",()=>{modal.style.display = "block";});
+
+			addChatBotButton = document.getElementById("addChatBotButton");
+			addChatBotButton.addEventListener("click",createNewChatBot);
+
+		}
+
+		function reloadList(){
+			//first, clean up
+			while (chatBotListElt.firstChild) {
+  				chatBotListElt.removeChild(chatBotListElt.firstChild);
+			}
+			
+			let myHeaders = new Headers();
+			myHeaders.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			myHeaders.append('Accept', 'application/json');
+			myHeaders.append('Set-Cookie', 'passPhrase=Hop');
+
+			let myInit = { 
+				method: 'GET',
+               	headers: myHeaders,
+               	credentials: 'same-origin',
+               	mode: 'cors',
+               	cache: 'no-store' 
+            };
+
+			let myURL = `http://localhost:3001/`;
+			
+			fetch(myURL,myInit)
+				.then((httpResponse)=>{
+					for(let field of httpResponse.headers){
+						console.log(`raw = ${field}`);
+					}	
+					return httpResponse.json()
+				})
+				.then((setOfChatBot)=>{
+					for(let chatBot of setOfChatBot){
+						chatBotListElt.appendChild(createItem(chatBot));
+					}
+				})
+				.catch((err)=>{
+					console.log(`ERROR : ${err}`);
+				})
+				
+		
+		}
+
+	
+		function createItem(chatBot){
+			let item = document.createElement("li");
+			
+			// Adding a DELETE Button
+			let delBtn = document.createElement("button");
+			delBtn.innerHTML = "DELETE";
+			delBtn.setAttribute("onclick",`deleteBot(${chatBot.id})`);
+			item.appendChild(delBtn);
+
+
+			// Adding a PUT Button
+			let putBtn = document.createElement("button");
+			putBtn.innerHTML = "PUT";
+			putBtn.setAttribute("onclick",`replaceBot(${chatBot.id})`);
+			item.appendChild(putBtn);
+			
+			// Adding a PATCH Button
+			let patchBtn = document.createElement("button");
+			patchBtn.innerHTML = "PATCH";
+			patchBtn.setAttribute("onclick",`updateBot(${chatBot.id})`);
+			item.appendChild(patchBtn);
+
+			item.innerHTML += ` ${chatBot.name}`;
+			return item;
+		}
+
+		function deleteBot(botId) {
+            console.log(`deleting bot with Id ${botId}`);
+
+            let myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+            let payload = {
+                name: inputName.value,
+            };
+            let myBody = JSON.stringify(payload);
+            let myInit = {
+                method: 'DELETE',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default',
+                body: myBody
+            };
+            let myURL = "http://localhost:3001/";
+
+            //launch the request
+            fetch(myURL, myInit)
+                .then((httpResponse) => {
+                    return httpResponse.text();
+                })
+                .then((responseBody) => {
+                    reloadList();// don't forget to reload
+                    console.log(`response is ${responseBody}`);
+                })
+                .catch((err) => {
+                    console.log(`ERROR : ${err}`);
+                })
+        }
+
+
+        function replaceBot(botId) {
+            console.log(`replacing bot with Id ${botId}`);
+
+            let modal = document.getElementById("replaceChatBotModal");
+            modal.style.display = "none";
+
+
+
+            let myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+            let payload = {
+                name: inputName.value,
+            };
+            let myBody = JSON.stringify(payload);
+            let myInit = {
+                method: 'PUT',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default',
+                body: myBody
+            };
+            let myURL = "http://localhost:3001/";
+
+            //launch the request
+            fetch(myURL, myInit)
+                .then((httpResponse) => {
+                    return httpResponse.text();
+                })
+                .then((responseBody) => {
+                    reloadList();// don't forget to reload
+                    console.log(`response is ${responseBody}`);
+                })
+                .catch((err) => {
+                    console.log(`ERROR : ${err}`);
+                })
+        }
+
+
+
+        function createNewChatBot() { 
+            console.log("Nouveau ChatBot créé");
+
+            let modal = document.getElementById("newChatBotModal");
+
+            modal.style.display = "none";
+
+            let myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+
+            let payload = {
+                namee: inputName.value,
+            };
+            let myBody = JSON.stringify(payload);
+            let myInit = {
+                method: 'POST',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default',
+                body: myBody
+            };
+            let myURL = "http://localhost:3001/"; //URL du serveur qui va être lancé
+
+            console.log(inputName.value); 
+
+            
+
+            //launch the request
+            fetch(myURL, myInit)
+                .then((httpResponse) => {
+                    return httpResponse.text();
+                })
+                .then((responseBody) => {
+                    reloadList();
+                    //clear fields
+                    inputName.value = "";
+                    console.log(`response is ${responseBody}`);
+                })
+                .catch((err) => {
+                    console.log(`ERROR : ${err}`);
+                })
+
+            console.log("Requête POST envoyée avec succès");
+        }
+
+    </script>
 
 </head>
 
 <body>
-. . <!-- link to login page-->
-	coucou
-  </body>
+    <h1> Interface d'administration</h1>
+
+    <!-- Liste des ChatBots à afficher -->
+    <ul id="ChatBotListUL">
+    </ul>
+
+    <button id="newChatBotButton">Ajouter un nouveau ChatBot</button>
+
+    <!-- Modal pour la création d'un bot-->
+    <div id="newChatBotModal" class="modal">
+
+        <div class="modal-content">
+            <h1>Créer un nouveau ChatBot</h1>
+            <p>
+                <label for="inputName">Nom du ChatBot:</label>
+                <input type="text" id="inputName" name="name"></input>
+
+            </p>
+
+
+            <button id="addChatBotButton">Ajouter le ChatBot</button>
+        </div>
+
+    </div>
+
+    <!-- Modal pour le replace d'un bot-->
+    <div id="replaceChatBotModal" class="modal">
+
+        <div class="modal-content">
+            <h1>Replace a new ChatBot</h1>
+            <p>
+                <label for="inputName">Nom du ChatBot:</label>
+                <input type="text" id="inputName" name="name"></input>
+
+            </p>
+
+            <!-- On réutilise le bouton addnewChatButton ??-->
+            <button id="addChatBotButton">Remplacer le ChatBot</button>
+        </div>
+
+    </div>
+
+
+	</body>
 </html>
