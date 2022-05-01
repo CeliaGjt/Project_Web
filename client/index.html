@@ -16,7 +16,8 @@
             reloadList();
 
             modal = document.getElementById("newChatBotModal");
-            inputTitle = document.getElementById("inputTitle");
+            inputName = document.getElementById("inputName");
+            inputBrain = document.querySelector('input[name="choix_cerveau"]:checked');
 
 
 
@@ -98,7 +99,7 @@
             item.appendChild(talkBtn);
 
 
-            item.innerHTML += ` ${bot.title}`;
+            item.innerHTML += ` ${bot.name}`;
             return item;
         }
 
@@ -109,7 +110,7 @@
             let myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
             let payload = {
-                title: inputTitle.value,
+                name: inputName.value,
                 cerveau: inputBrain.id
             };
             let myBody = JSON.stringify(payload);
@@ -148,7 +149,7 @@
             let myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
             let payload = {
-                title: inputTitle.value,
+                name: inputName.value,
                 cerveau: inputBrain.id
             };
             let myBody = JSON.stringify(payload);
@@ -188,7 +189,7 @@
             myHeaders.append('Content-Type', 'application/json');
 
             let payload = {
-                title: inputTitle.value,
+                name: inputName.value,
                 cerveau: inputBrain.id
             };
             let myBody = JSON.stringify(payload);
@@ -201,7 +202,7 @@
             };
             let myURL = "http://localhost:3001/"; //URL du serveur qui va être lancé
 
-            console.log(inputTitle.value); // Envoie le titre
+            console.log(inputName.value); // Envoie le titre
             console.log(inputBrain.id); // Envoie "cerveau1" ou "cerveau2"
             
 
@@ -213,7 +214,7 @@
                 .then((responseBody) => {
                     reloadList();
                     //clear fields
-                    inputTitle.value = "";
+                    inputName.value = "";
                     inputBrain.value = "";
                     console.log(`response is ${responseBody}`);
                 })
@@ -225,7 +226,60 @@
         }
 
 
-       
+        function talkBot(botName) {//Talk with the bot
+            //Fonction appelée lorsqu'on appuie sur Chat
+            console.log(`Lancement de la conversion avec le bot ${botName  }`);
+
+            let modal = document.getElementById("CommunicateChatBotModal");
+
+            modal.style.display = "block";
+
+            
+        }
+
+        function sendMessage(){ //When pushing the Send button
+            
+
+
+            let myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+
+            let payload = {
+                message: message.value
+            };
+            let myBody = JSON.stringify(payload);
+            let myInit = {
+                method: 'POST',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default',
+                body: myBody
+            };
+            let myURL = "http://localhost:3001/reply"; //URL du serveur qui va être lancé
+
+            console.log(message.value); // Envoie "cerveau1" ou "cerveau2"
+            
+
+            //launch the request
+            fetch(myURL, myInit)
+                .then((httpResponse) => {
+                    return httpResponse.text();
+                })
+                .then((responseBody) => {
+                    reloadList();
+                    //clear fields
+                    inputName.value = "";
+                    inputBrain.value = "";
+                    console.log(`response is ${responseBody}`);
+                })
+                .catch((err) => {
+                    console.log(`ERROR : ${err}`);
+                })
+
+            console.log("Requête POST envoyée avec succès");
+            console.log(`Le message "${message.value}" a été envoyé dans la requête post au Bot`);
+
+        }
 
     </script>
 
@@ -248,12 +302,19 @@
         <div class="modal-content">
             <h1>Create a new ChatBot</h1>
             <p>
-                <label for="inputTitle">Nom du ChatBot:</label>
-                <input type="text" id="inputTitle" name="title"></input>
+                <label for="inputName">Nom du ChatBot:</label>
+                <input type="text" id="inputName" name="name"></input>
 
             </p>
 
+            <p>
+                <label>Choix du cerveau: </label>
+                <input type="radio" name="choix_cerveau" id="cerveau1" autofocus checked />
+                <label> Cerveau 1 </label> <br />
+                <input type="radio" name="choix_cerveau" id="cerveau2" />
+                <label> Cerveau 2 </label><br />
 
+            </p>
 
             <button id="addNewChatBotButton">Ajouter le ChatBot</button>
         </div>
@@ -266,8 +327,8 @@
         <div class="modal-content">
             <h1>Replace a new ChatBot</h1>
             <p>
-                <label for="inputTitle">Nom du ChatBot:</label>
-                <input type="text" id="inputTitle" name="title"></input>
+                <label for="inputName">Nom du ChatBot:</label>
+                <input type="text" id="inputName" name="name"></input>
 
             </p>
 
@@ -277,9 +338,8 @@
 
     </div>
 
-  
+
 
 
 
 </body>
-</html>
