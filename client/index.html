@@ -87,17 +87,6 @@
             patchBtn.addEventListener("click", () => { updateBot(bot.id) });
             item.appendChild(patchBtn);
 
-            // Adding a TALK Button
-            /*let talkBtn = document.createElement("button");
-            talkBtn.innerHTML = "Talk";
-            talkBtn.addEventListener("click", () => { talkBot(bot.id) });
-            item.appendChild(talkBtn);*/
-
-            let talkBtn = document.createElement("button");
-            talkBtn.innerHTML = "TALK";
-            talkBtn.setAttribute("onclick", `talkBot(${bot.id})`);
-            item.appendChild(talkBtn);
-
 
             item.innerHTML += ` ${bot.name}`;
             return item;
@@ -226,16 +215,7 @@
         }
 
 
-        function talkBot(botName) {//Talk with the bot
-            //Fonction appelée lorsqu'on appuie sur Chat
-            console.log(`Lancement de la conversion avec le bot ${botName  }`);
 
-            let modal = document.getElementById("CommunicateChatBotModal");
-
-            modal.style.display = "block";
-
-            
-        }
 
         function sendMessage(){ //When pushing the Send button
             
