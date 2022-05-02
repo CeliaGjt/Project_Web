@@ -110,7 +110,7 @@
                 cache: 'default',
                 body: myBody
             };
-            let myURL = "http://localhost:3001/";
+            let myURL = `http://localhost:3001/${botId}`;
 
             //launch the request
             fetch(myURL, myInit)
@@ -216,51 +216,6 @@
 
 
 
-
-        function sendMessage(){ //When pushing the Send button
-            
-
-
-            let myHeaders = new Headers();
-            myHeaders.append('Content-Type', 'application/json');
-
-            let payload = {
-                message: message.value
-            };
-            let myBody = JSON.stringify(payload);
-            let myInit = {
-                method: 'POST',
-                headers: myHeaders,
-                mode: 'cors',
-                cache: 'default',
-                body: myBody
-            };
-            let myURL = "http://localhost:3001/reply"; //URL du serveur qui va être lancé
-
-            console.log(message.value); // Envoie "cerveau1" ou "cerveau2"
-            
-
-            //launch the request
-            fetch(myURL, myInit)
-                .then((httpResponse) => {
-                    return httpResponse.text();
-                })
-                .then((responseBody) => {
-                    reloadList();
-                    //clear fields
-                    inputName.value = "";
-                    inputBrain.value = "";
-                    console.log(`response is ${responseBody}`);
-                })
-                .catch((err) => {
-                    console.log(`ERROR : ${err}`);
-                })
-
-            console.log("Requête POST envoyée avec succès");
-            console.log(`Le message "${message.value}" a été envoyé dans la requête post au Bot`);
-
-        }
-
     </script>
 
 </head>
@@ -312,12 +267,19 @@
 
             </p>
 
+            <p>
+                <label>Choix du cerveau: </label>
+                <input type="radio" name="choix_cerveau" id="cerveau1" autofocus checked />
+                <label> Cerveau 1 </label> <br />
+                <input type="radio" name="choix_cerveau" id="cerveau2" />
+                <label> Cerveau 2 </label><br />
+
+            </p>
             <!-- On réutilise le bouton addnewChatButton ??-->
             <button id="addNewChatBotButton">Remplacer le ChatBot</button>
         </div>
 
     </div>
-
 
 
 
