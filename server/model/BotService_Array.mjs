@@ -15,6 +15,7 @@ class BotService_Array{
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
+			Bot.seConnecter(newBot);
 		}catch(err){
 			throw err; //throwing an error inside a Promise
 		}

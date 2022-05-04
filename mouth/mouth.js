@@ -1,24 +1,17 @@
 const RiveScript= require("rivescript")
 const { Client, Intents } = require("discord.js")
 
-class mouth{
 
+const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 
+const { token } = require('./config.json');
 
-	constructor(data){ 
-		const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+var chloe = new RiveScript();
 
-		const {token} = require('./config.json');
+chloe.loadDirectory("../project_Web/server/brain").then(loading_done).catch(loading_error)
 
-		var chloe = new RiveScript();
-
-		chloe.loadDirectory("../project_Web/server/brain").then(loading_done).catch(loading_error)
-		
-		bot.login(token)
-	}
-
-
-}
+bot.login(token)
+	
 function loading_done() {
 	console.log("Chloé a fini d'apprendre ");
 	chloe.sortReplies();

@@ -17,7 +17,7 @@
 
             modal = document.getElementById("newChatBotModal");
             inputName = document.getElementById("inputName");
-            inputBrain = document.querySelector('input[name="choix_cerveau"]:checked');
+            
 
 
 
@@ -100,7 +100,7 @@
             myHeaders.append('Content-Type', 'application/json');
             let payload = {
                 name: inputName.value,
-                cerveau: inputBrain.id
+                
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -139,7 +139,7 @@
             myHeaders.append('Content-Type', 'application/json');
             let payload = {
                 name: inputName.value,
-                cerveau: inputBrain.id
+                
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -167,7 +167,7 @@
 
 
 
-        function createNewChatBot() { //Fonction appelée lorsqu'on valide le nom du ChatBot et le cerveau ont été renseigné
+        function createNewChatBot() { //Fonction appelée lorsqu'on valide le nom du ChatBot 
             console.log("Nouveau ChatBot créé");
 
             let modal = document.getElementById("newChatBotModal");
@@ -179,7 +179,7 @@
 
             let payload = {
                 name: inputName.value,
-                cerveau: inputBrain.id
+                
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -192,7 +192,7 @@
             let myURL = "http://localhost:3001/"; //URL du serveur qui va être lancé
 
             console.log(inputName.value); // Envoie le titre
-            console.log(inputBrain.id); // Envoie "cerveau1" ou "cerveau2"
+            
             
 
             //launch the request
@@ -204,7 +204,6 @@
                     reloadList();
                     //clear fields
                     inputName.value = "";
-                    inputBrain.value = "";
                     console.log(`response is ${responseBody}`);
                 })
                 .catch((err) => {
@@ -242,14 +241,7 @@
 
             </p>
 
-            <p>
-                <label>Choix du cerveau: </label>
-                <input type="radio" name="choix_cerveau" id="cerveau1" autofocus checked />
-                <label> Cerveau 1 </label> <br />
-                <input type="radio" name="choix_cerveau" id="cerveau2" />
-                <label> Cerveau 2 </label><br />
-
-            </p>
+            
 
             <button id="addNewChatBotButton">Ajouter le ChatBot</button>
         </div>
@@ -267,14 +259,7 @@
 
             </p>
 
-            <p>
-                <label>Choix du cerveau: </label>
-                <input type="radio" name="choix_cerveau" id="cerveau1" autofocus checked />
-                <label> Cerveau 1 </label> <br />
-                <input type="radio" name="choix_cerveau" id="cerveau2" />
-                <label> Cerveau 2 </label><br />
-
-            </p>
+            
             <!-- On réutilise le bouton addnewChatButton ??-->
             <button id="addNewChatBotButton">Remplacer le ChatBot</button>
         </div>
