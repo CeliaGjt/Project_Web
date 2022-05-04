@@ -1,7 +1,4 @@
-cd client
-npm install express
-
-cd ../mouth
+cd /mouth
 npm install discord.js
 npm install rivescript
 

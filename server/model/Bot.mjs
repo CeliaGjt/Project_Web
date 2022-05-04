@@ -3,7 +3,7 @@ class Bot{
   static id = this.id;
   static name = this.name;
   static cerveau  = this.cerveau;
-
+  
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
       if(!isInt(data.id)){
