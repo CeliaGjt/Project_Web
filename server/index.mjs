@@ -1,17 +1,21 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-
+import { Client, Intents } from "discord.js";
 import RiveScript from 'rivescript';
 
 import {Bot} from "./model/Bot.mjs";
 import {BotService_Array} from "./model/BotService_Array.mjs";
 let BotServiceInstance;
+let bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+let a = true
+// Create the bot.
+let script = new RiveScript();
 
+let username = "local-user";
 
 
 const app = express();
-
 
 //// Enable ALL CORS request
 app.use(cors())
@@ -22,8 +26,51 @@ const port = 3001
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true })) 
 
+function success_handler(script) {
+  console.log('Brain loaded!');
+  script.sortReplies();
+
+}
+
+app.post('/reply', getReply);
+  
+function error_handler(loadcount, err) {
+  console.log('Error loading batch #' + loadcount + ': ' + err + '\n');
+}
+
+// POST to /reply to get a RiveScript reply.
+function getReply(req, res) {
+
+	var message = req.body.message;
+	console.log("Entree reply");
+
+  
+	script.reply(username, "Hello, bot!").then(function(reply) {
+		console.log("The bot says: " + reply);
+	  });
+	  sendMessage(message);
+}
+
+function sendMessage (text) {
+	console.log("You say: " + text);
+	  //$("#message").val("");
+	  //$("#dialogue").append("<div><span class='user'>You:</span> " + text + "</div>");
+	script.sortReplies();
+	console.log("tabernacle : " + username);
+	script.reply(username,text).then(function(reply) {
+	  console.log("The bot says: " + reply);
+	});
+}
 
 
+	
+// Send a JSON error to the browser.
+function error(res, message) {
+	res.json({
+	  status: 'error',
+	  message: message,
+	});
+}
 
 app.get('/', (req, res)=>{
 	try{
@@ -80,7 +127,8 @@ app.patch('/:id',(req,res)=>{
 app.delete('/:id',(req,res)=>{
 	let id = req.params.id;
 	try{
-		let myBot = 	BotServiceInstance.removeBot(id);
+		let myBot = BotServiceInstance.removeBot(id);
+		a = false
 		res.status(200).json(myBot);
 	}
 	catch(err){
@@ -112,13 +160,15 @@ app.put('/:id',(req,res)=>{
 
 
 app.post('/',(req,res)=>{
+	
 	let theBotToAdd = req.body;
 	console.log(req.body);
 	BotServiceInstance
-		.addBot(theBotToAdd) 
+		.addBot(theBotToAdd, bot,a) 
 		.then((returnString)=>{
 			console.log(returnString);
-			
+			a=true
+			script.loadFile("./brain/"+`${theBotToAdd.cerveau}`+".rive").then(success_handler(script)).catch(error_handler)
 			res.status(201).send(theBotToAdd);
 		})
 		.catch((err)=>{
@@ -142,3 +192,29 @@ function isInt(value) {
 	let x = parseFloat(value);
 	return !isNaN(value) && (x | 0) === x;
   }
+
+  bot.on('ready', function () {console.log("Je suis connectée !")})
+
+  bot.on('messageCreate', message => {
+		  if(message.channel.name == "general" && message.author.id != bot.application.id && a==true)
+		  {
+			  let entry = message.content 
+			  script.reply(message.author.name, entry).then(function(reply)
+				  {
+					  var output = reply;
+					  if(output != "ERR: No Reply Matched")
+					  {
+						  message.channel.send(output)
+					  }
+					  else
+					  {
+						  message.channel.send("Exprime toi mieux")
+					  }
+				  }
+			  );
+		  }
+	  }
+  )
+
+	
+	

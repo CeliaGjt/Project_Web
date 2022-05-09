@@ -1,6 +1,5 @@
 import {Bot} from "./Bot.mjs";
-
-
+import { Client, Intents } from "discord.js";
 class BotService_Array{
 	constructor(data){ 
 		this.array = new Array();
@@ -11,11 +10,11 @@ class BotService_Array{
 		return new BotService_Array();
 	}
 
-	async addBot(anObject){
+	async addBot(anObject,bot){
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
-			Bot.seConnecter(newBot);
+			bot.login("OTYxMjc5NzI1Njc2OTQ1NDgw.GxOIAU.X4IK9VMbqmtkLicjFGc0SNa2gn3hz19AdWpEpw")
 		}catch(err){
 			throw err; //throwing an error inside a Promise
 		}
@@ -57,7 +56,8 @@ class BotService_Array{
 		throw new Error(`cannot find Bot of id ${id}`);
 	}
 
-	async removeBot(id){
+	async removeBot(id, bot){
+
 		let index = this.array.findIndex(e=> e.id == id);
 		if(index >-1 ){
 			this.array.splice(index,1);

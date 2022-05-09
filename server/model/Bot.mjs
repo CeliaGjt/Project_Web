@@ -5,7 +5,7 @@ class Bot{
 
   static id = this.id;
   static name = this.name;
-  
+  static cerveau = this.cerveau
 
 
   constructor(data){   //id,title,comment,tags
@@ -25,12 +25,19 @@ class Bot{
     } else {
       this.name = "";
     }
-    
+    if(undefined != data.cerveau) {
+      if(!isString(data.cerveau)){
+        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+      }
+      this.cerveau = data.cerveau;
+    } else {
+      this.cerveau = "";
+    }
 
   }
   
-  static async create(name){ 
-    return new Bot(name);
+  static async create(name, cerveau){ 
+    return new Bot(name, cerveau);
   }
 
   static async seConnecter(anObject) {
@@ -38,7 +45,7 @@ class Bot{
 		let mouth  = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 
     let cerveau = new RiveScript();
-		cerveau.loadDirectory("../server/brain").then(loading_done(cerveau)).catch(loading_error)
+		cerveau.loadDirectory("../server/"+`${anObject.cereau}`+".rive").then(loading_done(cerveau)).catch(loading_error)
 		
 
     
