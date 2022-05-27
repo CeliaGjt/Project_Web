@@ -10,11 +10,10 @@ class BotService_Array{
 		return new BotService_Array();
 	}
 
-	async addBot(anObject,bot){
+	async addBot(anObject){
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
-			bot.login("OTYxMjc5NzI1Njc2OTQ1NDgw.GxOIAU.X4IK9VMbqmtkLicjFGc0SNa2gn3hz19AdWpEpw")
 		}catch(err){
 			throw err; //throwing an error inside a Promise
 		}

@@ -7,11 +7,11 @@ import RiveScript from 'rivescript';
 import {Bot} from "./model/Bot.mjs";
 import {BotService_Array} from "./model/BotService_Array.mjs";
 let BotServiceInstance;
-let bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+
 let a = true
 // Create the bot.
-let script = new RiveScript();
 
+let script=new RiveScript;
 let username = "local-user";
 
 
@@ -161,14 +161,18 @@ app.put('/:id',(req,res)=>{
 
 app.post('/',(req,res)=>{
 	
+	let bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+
 	let theBotToAdd = req.body;
 	console.log(req.body);
 	BotServiceInstance
-		.addBot(theBotToAdd, bot,a) 
+		.addBot(theBotToAdd) 
 		.then((returnString)=>{
 			console.log(returnString);
+
 			a=true
-			script.loadFile("./brain/"+`${theBotToAdd.cerveau}`+".rive").then(success_handler(script)).catch(error_handler)
+			script.loadFile("./server/brain/"+`${theBotToAdd.cerveau}`+".rive").then(success_handler(script)).catch(error_handler)
+			Bot.seConnecter(bot,script)
 			res.status(201).send(theBotToAdd);
 		})
 		.catch((err)=>{
@@ -193,28 +197,7 @@ function isInt(value) {
 	return !isNaN(value) && (x | 0) === x;
   }
 
-  bot.on('ready', function () {console.log("Je suis connectée !")})
 
-  bot.on('messageCreate', message => {
-		  if(message.channel.name == "general" && message.author.id != bot.application.id && a==true)
-		  {
-			  let entry = message.content 
-			  script.reply(message.author.name, entry).then(function(reply)
-				  {
-					  var output = reply;
-					  if(output != "ERR: No Reply Matched")
-					  {
-						  message.channel.send(output)
-					  }
-					  else
-					  {
-						  message.channel.send("Exprime toi mieux")
-					  }
-				  }
-			  );
-		  }
-	  }
-  )
 
 	
 	

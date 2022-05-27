@@ -6,6 +6,8 @@
 
 
     <script>
+
+        let numero_cerveau=0;
         document.addEventListener('DOMContentLoaded', init);
 
         let ChatBotListElt;
@@ -17,7 +19,8 @@
 
             modal = document.getElementById("newChatBotModal");
             inputName = document.getElementById("inputName");
-            inputBrain = document.querySelector('input[name="choix_cerveau"]:checked');
+            inputBrain = document.getElementsByName("choix_cerveau");
+
 
 
 
@@ -177,16 +180,25 @@
         function createNewChatBot() { //Fonction appelée lorsqu'on valide le nom du ChatBot et le cerveau ont été renseigné
             console.log("Nouveau ChatBot créé");
 
+            for (var i = 0, length = inputBrain.length; i < length; i++) {
+                if (inputBrain[i].checked) {
+    // do whatever you want with the checked radio
+    numero_cerveau=i;
+
+    // only one radio can be logically checked, don't check the rest
+         break;
+              }
+        }
+
             let modal = document.getElementById("newChatBotModal");
 
             modal.style.display = "none";
 
             let myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
-
             let payload = {
                 name: inputName.value,
-                cerveau: inputBrain.id
+                cerveau: inputBrain[numero_cerveau].id
             };
             let myBody = JSON.stringify(payload);
             let myInit = {

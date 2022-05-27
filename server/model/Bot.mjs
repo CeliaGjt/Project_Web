@@ -5,7 +5,7 @@ class Bot{
 
   static id = this.id;
   static name = this.name;
-  static cerveau = this.cerveau
+  static cerveau = this.cerveau;
 
 
   constructor(data){   //id,title,comment,tags
@@ -32,7 +32,8 @@ class Bot{
       this.cerveau = data.cerveau;
     } else {
       this.cerveau = "";
-    }
+    }    
+
 
   }
   
@@ -40,13 +41,8 @@ class Bot{
     return new Bot(name, cerveau);
   }
 
-  static async seConnecter(anObject) {
+  static async seConnecter(mouth,cerveau) {
     
-		let mouth  = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
-
-    let cerveau = new RiveScript();
-		cerveau.loadDirectory("../server/"+`${anObject.cereau}`+".rive").then(loading_done(cerveau)).catch(loading_error)
-		
 
     
 		mouth.on('ready', function () { console.log("Je suis connectée !") })
