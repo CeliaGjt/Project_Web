@@ -6,6 +6,7 @@ class Bot{
   static id = this.id;
   static name = this.name;
   static cerveau = this.cerveau;
+  static token= this.token;
 
 
   constructor(data){   //id,title,comment,tags
@@ -33,7 +34,14 @@ class Bot{
     } else {
       this.cerveau = "";
     }    
-
+    if(undefined != data.token) {
+      if(!isString(data.token)){
+        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+      }
+      this.token = data.token;
+    } else {
+      this.token = "";
+    }  
 
   }
   
@@ -41,14 +49,14 @@ class Bot{
     return new Bot(name, cerveau);
   }
 
-  static async seConnecter(mouth,cerveau) {
+  static async seConnecter(mouth,cerveau,token) {
     
 
     
 		mouth.on('ready', function () { console.log("Je suis connectée !") })
 	
 		mouth.on('messageCreate', message => {
-			if (message.channel.name == "general" && message.author.id != mouth.application.id) {
+			if (message.channel.name == "general" && message.author.id != 961279725676945480  && message.author.id !=979857187193094196) {
 				let entry = message.content
 				cerveau.reply(message.author.name, entry).then(function (reply) {
 					var output = reply;
@@ -62,7 +70,7 @@ class Bot{
 			}
 		})
 
-    mouth.login("OTYxMjc5NzI1Njc2OTQ1NDgw.GxOIAU.X4IK9VMbqmtkLicjFGc0SNa2gn3hz19AdWpEpw")
+    mouth.login(token)
 	}
 
   static isBot(anObject){

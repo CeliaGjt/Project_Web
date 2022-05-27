@@ -172,7 +172,7 @@ app.post('/',(req,res)=>{
 
 			a=true
 			script.loadFile("./server/brain/"+`${theBotToAdd.cerveau}`+".rive").then(success_handler(script)).catch(error_handler)
-			Bot.seConnecter(bot,script)
+			Bot.seConnecter(bot,script, theBotToAdd.token)
 			res.status(201).send(theBotToAdd);
 		})
 		.catch((err)=>{
