@@ -8,7 +8,7 @@ class Bot{
   static cerveau = this.cerveau;
   static token= this.token;
 
-  constructor(data){   //id,title,comment,tags
+  constructor(data){   //constructeur: un bot est crée avec un id, un nom, un cerveau, un token de connexion à discord en renvoyant une erreur si le type donné n'est pas correct
     if(undefined != data.id) {
       if(!isInt(data.id)){
         throw new Error("Bot Creation : passed Id is not an integer");
@@ -19,7 +19,7 @@ class Bot{
     }
     if(undefined != data.name) {
       if(!isString(data.name)){
-        throw new Error("Bot Creation : passed Title is not a string");
+        throw new Error("Bot Creation : passed Name is not a string");
       }
       this.name = data.name;
     } else {
@@ -35,7 +35,7 @@ class Bot{
     }    
     if(undefined != data.token) {
       if(!isString(data.token)){
-        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+        throw new Error("Bot Creation : passed token is not a string");
       }
       this.token = data.token;
     } else {
@@ -47,7 +47,7 @@ class Bot{
     return new Bot(name, cerveau);
   }
 
-  static async seConnecter(mouth,cerveau,token) {
+  static async seConnecter(mouth,cerveau,token) { //permet de connecter un cerveau à "une bouche " sur l'interface discord avec un token
     
 		mouth.on('ready', function () { console.log("Je suis connectée !") })
 	
