@@ -6,7 +6,7 @@ import RiveScript from 'rivescript';
 
 import {Bot} from "./model/Bot.mjs";
 import {BotService_Array} from "./model/BotService_Array.mjs";
-let BotServiceInstance;
+let botServiceInstance;
 
 let a = true
 // Create the bot.
@@ -26,28 +26,13 @@ const port = 3001
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true })) 
 
-function success_handler(script) {
-  console.log('Brain loaded!');
-  script.sortReplies();
-
-}
-
 app.post('/reply', getReply);
-  
-function error_handler(loadcount, err) {
-  console.log('Error loading batch #' + loadcount + ': ' + err + '\n');
-}
 
 // POST to /reply to get a RiveScript reply.
 function getReply(req, res) {
 
 	var message = req.body.message;
 	console.log("Entree reply");
-
-  
-	script.reply(username, "Hello, bot!").then(function(reply) {
-		console.log("The bot says: " + reply);
-	  });
 	  sendMessage(message);
 }
 
@@ -56,26 +41,17 @@ function sendMessage (text) {
 	  //$("#message").val("");
 	  //$("#dialogue").append("<div><span class='user'>You:</span> " + text + "</div>");
 	script.sortReplies();
-	console.log("tabernacle : " + username);
+	console.log("My name : " + username);
 	script.reply(username,text).then(function(reply) {
 	  console.log("The bot says: " + reply);
 	});
 }
-
-
 	
-// Send a JSON error to the browser.
-function error(res, message) {
-	res.json({
-	  status: 'error',
-	  message: message,
-	});
-}
 
 app.get('/', (req, res)=>{
 	try{
 		let myArrayOfBots;
-		if( undefined == (myArrayOfBots = BotServiceInstance.getBots() )){
+		if( undefined == (myArrayOfBots = botServiceInstance.getBots() )){
 			throw new Error("No bots to get");
 		}
 		res.status(200).json(myArrayOfBots);
@@ -94,7 +70,7 @@ app.get('/:idd', (req, res)=>{
 		res.status(400).send('BAD REQUEST');
 	}else{
 		try{
-			let myBot = BotServiceInstance.getBot(id);
+			let myBot = botServiceInstance.getBot(id);
 			res.status(200).json(myBot);
 		}
 		catch(err){
@@ -111,8 +87,8 @@ app.patch('/:id',(req,res)=>{
 		res.status(400).send('BAD REQUEST');
 	}else{
 		let newValues = req.body; //the client is responsible for formating its request with proper syntax.
-		taskServiceInstance
-			.updateTask(id, newValues)
+		botServiceInstance
+			.updateBot(id, newValues)
 			.then((returnString)=>{
 				console.log(returnString);
 				res.status(201).send('All is OK');
@@ -127,7 +103,7 @@ app.patch('/:id',(req,res)=>{
 app.delete('/:id',(req,res)=>{
 	let id = req.params.id;
 	try{
-		let myBot = BotServiceInstance.removeBot(id);
+		let myBot = botServiceInstance.removeBot(id);
 		a = false
 		res.status(200).json(myBot);
 	}
@@ -137,6 +113,8 @@ app.delete('/:id',(req,res)=>{
 	}
 
 });
+
+
 app.put('/:id',(req,res)=>{
 	let id = req.params.id;
 	if(!isInt(id)) { //Should I propagate a bad parameter to the model?
@@ -144,8 +122,8 @@ app.put('/:id',(req,res)=>{
 		res.status(400).send('BAD REQUEST');
 	}else{
 		let newValues = req.body; //the client is responsible for formating its request with proper syntax.
-		BotServiceInstance
-			.replaceTask(id, newValues)
+		botServiceInstance
+			.replaceBot(id, newValues)
 			.then((returnString)=>{
 				console.log(returnString);
 				res.status(201).send('All is OK');
@@ -165,7 +143,7 @@ app.post('/',(req,res)=>{
 
 	let theBotToAdd = req.body;
 	console.log(req.body);
-	BotServiceInstance
+	botServiceInstance
 		.addBot(theBotToAdd) 
 		.then((returnString)=>{
 			console.log(returnString);
@@ -181,11 +159,19 @@ app.post('/',(req,res)=>{
 		});	
 });
 
+function success_handler(script) {
+	console.log('Brain loaded!');
+	script.sortReplies();
+  
+}
 
+function error_handler(loadcount, err) {
+	console.log('Error loading batch #' + loadcount + ': ' + err + '\n');
+}
 
 BotService_Array.create().then(ts=>{
-	BotServiceInstance=ts;
-	/*BotServiceInstance
+	botServiceInstance=ts;
+	/*botServiceInstance
 		.catch((err)=>{console.log(err);});*/
 	app.listen(port, () => {
   		console.log(`Example app listening at http://localhost:${port}`)
