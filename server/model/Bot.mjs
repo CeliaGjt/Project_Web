@@ -8,7 +8,6 @@ class Bot{
   static cerveau = this.cerveau;
   static token= this.token;
 
-
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
       if(!isInt(data.id)){
@@ -42,7 +41,6 @@ class Bot{
     } else {
       this.token = "";
     }  
-
   }
   
   static async create(name, cerveau){ 
@@ -50,8 +48,6 @@ class Bot{
   }
 
   static async seConnecter(mouth,cerveau,token) {
-    
-
     
 		mouth.on('ready', function () { console.log("Je suis connectée !") })
 	
