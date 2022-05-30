@@ -1,16 +1,16 @@
 import {Bot} from "./Bot.mjs";
 import { Client, Intents } from "discord.js";
-class BotService_Array{
+class BotService_Array{ //classe permettant le stockage/la gestion des différents bots crées
 	constructor(data){ 
 		this.array = new Array();
 		this.db = {};
 	}
 
-	static async create(){ 
+	static async create(){ //crée un tableau de Bots
 		return new BotService_Array();
 	}
 
-	async addBot(anObject){
+	async addBot(anObject){ //ajoute un bot dans le tableau
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
@@ -22,7 +22,7 @@ class BotService_Array{
 	}
 
 	//from PUT
-	async replaceBot(id, anObject){
+	async replaceBot(id, anObject){ //remplacer un bot dans le tableau
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
 			//At this point, you may have a safeguard to verify if the given Object is a Bot
@@ -37,7 +37,7 @@ class BotService_Array{
 	}
 
 	//from PATCH
-	async updateBot(id, anObject){
+	async updateBot(id, anObject){ //modifie les proprietes d'un Bot du tableau
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
 			//At this point, you may have a safeguard to verify if the fields of the given Object are from a Bot
@@ -55,7 +55,7 @@ class BotService_Array{
 		throw new Error(`cannot find Bot of id ${id}`);
 	}
 
-	async removeBot(id, bot){
+	async removeBot(id, bot){ //supprime un bot du tableau
 
 		let index = this.array.findIndex(e=> e.id == id);
 		if(index >-1 ){
@@ -66,7 +66,7 @@ class BotService_Array{
 		
 	}
 
-	getBot(id){
+	getBot(id){ //permet d'obtenir un bot en donnant son id en paramètre
 		let index = this.array.findIndex(e=> e.id == id);
 		if(index >-1 ){
 			return  (this.array)[index];
@@ -74,7 +74,7 @@ class BotService_Array{
 		throw new Error(`cannot find Bot of id ${id}`);	
 	}
 
-	getBots(){
+	getBots(){ //retourne le tableau de bots
 		return this.array;
 	}
 
