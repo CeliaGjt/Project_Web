@@ -11,8 +11,6 @@ let botServiceInstance;
 let a = true
 // Create the bot.
 
-let script=new RiveScript;
-let username = "local-user";
 
 
 const app = express();
@@ -26,7 +24,7 @@ const port = 3001
 app.use(bodyParser.json()) 
 app.use(bodyParser.urlencoded({ extended: true })) 
 
-app.post('/reply', getReply);
+/*app.post('/reply', getReply);
 
 // POST to /reply to get a RiveScript reply.
 function getReply(req, res) {
@@ -40,12 +38,12 @@ function sendMessage (text) {
 	console.log("You say: " + text);
 	  //$("#message").val("");
 	  //$("#dialogue").append("<div><span class='user'>You:</span> " + text + "</div>");
-	script.sortReplies();
+	this.script.sortReplies();
 	console.log("My name : " + username);
 	script.reply(username,text).then(function(reply) {
 	  console.log("The bot says: " + reply);
 	});
-}
+}*/
 	
 
 app.get('/', (req, res)=>{
@@ -53,7 +51,7 @@ app.get('/', (req, res)=>{
 		let myArrayOfBots;
 		if( undefined == (myArrayOfBots = botServiceInstance.getBots() )){
 			throw new Error("No bots to get");
-		}
+		}		
 		res.status(200).json(myArrayOfBots);
 	}
 	catch(err){
@@ -71,7 +69,7 @@ app.get('/:idd', (req, res)=>{
 	}else{
 		try{
 			let myBot = botServiceInstance.getBot(id);
-			res.status(200).json(myBot);
+			res.status(200).json(myBot.id);
 		}
 		catch(err){
 			console.log(`Error ${err} thrown... stack is : ${err.stack}`);
@@ -105,7 +103,7 @@ app.delete('/:id',(req,res)=>{
 	try{
 		let myBot = botServiceInstance.removeBot(id);
 		a = false
-		res.status(200).json(myBot);
+		res.status(200).json(myBot.id);
 	}
 	catch(err){
 		console.log(`Error ${err} thrown`);
@@ -139,7 +137,6 @@ app.put('/:id',(req,res)=>{
 
 app.post('/',(req,res)=>{
 	
-	let bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 
 	let theBotToAdd = req.body;
 	console.log(req.body);
@@ -148,26 +145,13 @@ app.post('/',(req,res)=>{
 		.then((returnString)=>{
 			console.log(returnString);
 
-			a=true
-			script.loadFile("./server/brain/"+`${theBotToAdd.cerveau}`+".rive").then(success_handler(script)).catch(error_handler)
-			Bot.seConnecter(bot,script, theBotToAdd.token)
-			res.status(201).send(theBotToAdd);
+			res.status(201).send(theBotToAdd.id);
 		})
 		.catch((err)=>{
 			console.log(`Error ${err} thrown... stack is : ${err.stack}`);
 			res.status(400).send('BAD REQUEST');
 		});	
 });
-
-function success_handler(script) {
-	console.log('Brain loaded!');
-	script.sortReplies();
-  
-}
-
-function error_handler(loadcount, err) {
-	console.log('Error loading batch #' + loadcount + ': ' + err + '\n');
-}
 
 BotService_Array.create().then(ts=>{
 	botServiceInstance=ts;

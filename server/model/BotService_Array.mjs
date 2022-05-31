@@ -10,16 +10,20 @@ class BotService_Array{ //classe permettant le stockage/la gestion des différen
 		return new BotService_Array();
 	}
 
+
+
 	async addBot(anObject){ //ajoute un bot dans le tableau
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
+			newBot.seConnecter();
 		}catch(err){
 			throw err; //throwing an error inside a Promise
 		}
-		this.array.push(newBot);
+		this.array.push([newBot.id,  newBot.name , newBot.token, newBot.cerveau]);
 		return `added bot of id ${newBot.id}`;
 	}
+	
 
 	//from PUT
 	async replaceBot(id, anObject){ //remplacer un bot dans le tableau

@@ -6,7 +6,8 @@ class Bot{
   static id = this.id;
   static name = this.name;
   static cerveau = this.cerveau;
-  static token= this.token;
+  static token = this.token;
+  static script = this.script;
 
   constructor(data){   //constructeur: un bot est crée avec un id, un nom, un cerveau, un token de connexion à discord en renvoyant une erreur si le type donné n'est pas correct
     if(undefined != data.id) {
@@ -40,33 +41,53 @@ class Bot{
       this.token = data.token;
     } else {
       this.token = "";
-    }  
+    }
+    this.script = new RiveScript(); 
+    
   }
   
   static async create(name, cerveau){ 
-    return new Bot(name, cerveau);
+    let bot = new Bot(name, cerveau);
+    return bot;
   }
 
-  static async seConnecter(mouth,cerveau,token) { //permet de connecter un cerveau à "une bouche " sur l'interface discord avec un token
-    
+  async success_handler() {
+    console.log('Brain loaded!');
+    this.script.sortReplies();    
+  }
+  
+  async error_handler(loadcount, err) {
+    console.log('Error loading batch #' + loadcount + ': ' + err + '\n');
+  }
+
+  
+  
+  async seConnecter() { //permet de connecter un cerveau à "une bouche " sur l'interface discord avec un token
+    this.script.loadFile("./server/brain/"+`${this.cerveau}`+".rive").then(this.success_handler()).catch(this.error_handler) 
+    let username = "local-user";
+    console.log("My name : " + username);
+    this.script.reply(username,"brigitte").then(function(reply) {
+      console.log("The bot says: " + reply);
+    });
+    let mouth = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 		mouth.on('ready', function () { console.log("Je suis connectée !") })
 	
 		mouth.on('messageCreate', message => {
 			if (message.channel.name == "general" && message.author.id != 961279725676945480  && message.author.id !=979857187193094196) {
 				let entry = message.content
-				cerveau.reply(message.author.name, entry).then(function (reply) {
+				this.script.reply(message.author.name, entry).then(function (reply) {
 					var output = reply;
 					if (output != "ERR: No Reply Matched") {
 						message.channel.send(output)
 					}
 					else {
-						message.channel.send("Exprime toi mieux")
+						message.channel.send("Je n'ai pas compris, désolé")
 					}
 				});
 			}
 		})
 
-    mouth.login(token)
+    mouth.login(this.token)
 	}
 
   static isBot(anObject){
@@ -107,17 +128,6 @@ function isArrayOfStrings(value){
   }
   return true;
 }
-
-function loading_done(cerveau) {
-  console.log("Le bot a fini d'apprendre ");
-  cerveau.sortReplies();
-}
-
-
-function loading_error(error, filename, lineno) {
-  console.log("Error when loading files: " + error);
-}
-
 
 
 
