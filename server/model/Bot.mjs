@@ -1,11 +1,14 @@
 import RiveScript from "rivescript";
 import { Client, Intents} from 'discord.js';
 
+let newPortDispo = 3002;
+
 class Bot{
 
   static id = this.id;
   static name = this.name;
   static cerveau = this.cerveau;
+  static port = this.port;
 
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
@@ -33,6 +36,8 @@ class Bot{
       this.cerveau = "";
     }
 
+    this.port = newPortDispo;
+    newPortDispo+=1;
   }
   
   static async create(name, cerveau){ 

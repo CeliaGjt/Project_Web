@@ -58,7 +58,7 @@ function isString(myVar) {
 
 
 bot.loadBot();
-var port =  id ;
+var port =  basicBot.port ;
 
 app.patch('/', async (req, res) => {
 	req.headers['content-type'] = 'application/json';

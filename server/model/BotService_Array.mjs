@@ -10,7 +10,7 @@ class BotService_Array{
 		return new BotService_Array();
 	}
 
-	async addBot(anObject,bot){
+	async addBot(anObject){
 		let newBot;
 		try{
 			newBot = new Bot(anObject);

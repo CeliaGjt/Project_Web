@@ -10,7 +10,6 @@ import {Bot} from "./model/Bot.mjs";
 import {BotService_Array} from "./model/BotService_Array.mjs";
 let BotServiceInstance;
 let bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
-let a = true
 
 
 let username = "local-user";
@@ -125,7 +124,6 @@ app.delete('/:id',(req,res)=>{
 	let id = req.params.id;
 	try{
 		let myBot = BotServiceInstance.removeBot(id);
-		a = false
 		res.status(200).json(myBot);
 	}
 	catch(err){
@@ -162,11 +160,9 @@ app.post('/',(req,res)=>{
 	let theBotToAdd = req.body;
 	console.log(req.body);
 	BotServiceInstance
-		.addBot(theBotToAdd, bot,a) 
+		.addBot(theBotToAdd) 
 		.then((returnString)=>{
 			console.log(returnString);
-			a=true
-
 			res.status(201).send(theBotToAdd);
 		})
 		.catch((err)=>{
