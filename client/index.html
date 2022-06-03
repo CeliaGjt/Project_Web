@@ -11,8 +11,9 @@
         let ChatBotListElt;
         let numero_brain = 0;
         let numero_com = 0;
-
+        let firstUpdate = true
         function init() {
+
 
             ChatBotListElt = document.getElementById("ChatBotListUL");
             reloadList();
@@ -189,7 +190,7 @@
 			let updateChatBotButton = document.getElementById("updateChatBotButton");
 
             modal.style.display = "block";
-
+			if (firstUpdate) {
             updateChatBotButton.addEventListener("click",()=>{
   				modal.style.display = "none"; // Make the modal disapear
 
@@ -245,6 +246,9 @@
                 console.log("Requête PATCH envoyée avec succès");
                 
             })
+
+            firstUpdate = false
+			}
         }
 
 
