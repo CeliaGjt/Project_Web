@@ -47,7 +47,7 @@ const {
 	BotInterface
 } =  await import('./model/BotInterface.mjs');
 
-if (basicBot.com="Discord"){
+if (basicBot.com=="Discord"){
 
 bot = new BotInterface_Discord(basicBot);
 }

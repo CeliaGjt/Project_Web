@@ -72,7 +72,7 @@ class BotInterface_Discord extends BotInterface {
 		console.log('...Loaded');
 		// Login to Discord with your client's token
 		// this.client.login(this.com.option.token);
-		this.client.login("OTYxMjc5NzI1Njc2OTQ1NDgw.Gn2erF.WgsuqDJyd9c-2Nd7hlWWRMuAlyOK9VKPCZNggU");
+		this.client.login("OTYxMjc5NzI1Njc2OTQ1NDgw.G_uw50.fDCLUUbW5vRswA7kLa-EEoGJn151aXNDRTaFcY");
 	
 		
 	}
