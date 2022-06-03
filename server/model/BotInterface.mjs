@@ -1,5 +1,5 @@
 import RiveScript from 'rivescript';
-
+let username = "local-user";
 class BotInterface {
 	constructor(botProfile) {
 		this.botProfile = botProfile;
@@ -16,8 +16,8 @@ class BotInterface {
 
 	async reply(message) {
 		// var reply = await ;
-		console.log(`Repling to :${message.replace(/[^a-zA-Z0-9 !?.]/g, '').toLowerCase()}`);
-		return this.bot.reply(this.userProfile, message.replace(/[^a-zA-Z0-9 !?.]/g, '').toLowerCase());
+		console.log(`Repling to :${message}`);
+		return this.bot.reply("user", message);
 	}
 
 

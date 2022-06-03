@@ -218,12 +218,38 @@ app.post('/:id', async (req, res) => {
 	}
 });
 
-
+let discordBots = {};
 
 BotService_Array.create().then(ts=>{
 	BotServiceInstance=ts;
 	/*BotServiceInstance
 		.catch((err)=>{console.log(err);});*/
+
+		let bots = ts.getBots();
+		bots.forEach(bot => {
+		if (bot.com == 'Discord'){
+			console.log('Launching discordBot');
+			try {
+				var worker = new Worker('./worker.mjs', {
+					workerData: {
+						id: bot.id
+					}
+				});
+				worker.on('error', (err) => {
+					console.log(`Error ${err} thrown... stack is : ${err.stack}`);
+					throw err;
+				});
+				worker.once('message', (port) => {
+					// const port = 4000 + id * 100 + encode(login);
+					console.log('Launched');
+					discordBots[bot.id] = worker;
+				});
+	
+			} catch (err) {
+				console.log(`Error ${err} thrown... stack is : ${err.stack}`);
+			}
+		}
+	});
 	app.listen(port, () => {
   		console.log(`Example app listening at http://localhost:${port}`)
 	});

@@ -10,6 +10,7 @@
 
         let ChatBotListElt;
         let numero_brain = 0;
+        let numero_com = 0;
 
         function init() {
 
@@ -19,6 +20,7 @@
             modal = document.getElementById("newChatBotModal");
             inputName = document.getElementById("inputName");
             inputBrain = document.getElementsByName("choix_cerveau");
+            inputCom = document.getElementsByName("choix_com");
 
             newChatBotButton = document.getElementById("newChatBotButton");
             newChatBotButton.addEventListener("click", () => { modal.style.display = "block"; });
@@ -216,6 +218,12 @@
                     break;
               }
             }
+            for (var i = 0, length = inputCom.length; i < length; i++) {
+                if (inputCom[i].checked) { 
+                    numero_com=i;
+                    break;
+              }
+            }
 
             let modal = document.getElementById("newChatBotModal");
 
@@ -227,7 +235,8 @@
 
             let payload = {
                 name: inputName.value,
-                cerveau: inputBrain[numero_brain].id
+                cerveau: inputBrain[numero_brain].id,
+                com: inputCom[numero_com].id
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -292,6 +301,13 @@
                 <label> Cerveau 1 </label> <br />
                 <input type="radio" name="choix_cerveau" id="cerveau2" />
                 <label> Cerveau 2 </label><br />
+            </p>
+            <p>
+                <label>Choix de l'interface: </label>
+                <input type="radio" name="choix_com" id="Local" autofocus checked />
+                <label> Local </label> <br />
+                <input type="radio" name="choix_com" id="Discord" />
+                <label> Discord </label><br />
             </p>
             <button id="addNewChatBotButton">Ajouter le ChatBot</button>
         </div>

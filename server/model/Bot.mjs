@@ -9,6 +9,8 @@ class Bot{
   static name = this.name;
   static cerveau = this.cerveau;
   static port = this.port;
+  static com=this.com
+  // static token=this.token
 
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
@@ -35,6 +37,24 @@ class Bot{
     } else {
       this.cerveau = "";
     }
+    if(undefined != data.com) {
+      if(!isString(data.com)){
+        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+      }
+      this.com = data.com;
+    } else {
+      this.com = "";
+    }
+    // if (this.com=="Discord"){
+    //   if(undefined != data.token) {
+    //     if(!isString(data.token)){
+    //       throw new Error("Bot Creation : passed cerveau is not a cerveau");
+    //     }
+    //     this.token = data.token;
+    //   } else {
+    //     this.token = "";
+    //   }
+    // }
 
     this.port = newPortDispo;
     newPortDispo+=1;

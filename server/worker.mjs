@@ -40,12 +40,20 @@ console.log(id)
 
 var bot;
 const {
+	BotInterface_Discord
+} =  await import('./model/BotInterface_Discord.mjs');
+
+const {
 	BotInterface
-} = await import('./model/BotInterface.mjs');
-	
-bot = new BotInterface(basicBot);
+} =  await import('./model/BotInterface.mjs');
 
+if (basicBot.com="Discord"){
 
+bot = new BotInterface_Discord(basicBot);
+}
+else{
+	bot = new BotInterface(basicBot);
+}
 
 function isInt(value) {
 	let x = parseFloat(value);
