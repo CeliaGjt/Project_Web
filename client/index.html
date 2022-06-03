@@ -11,7 +11,8 @@
         let ChatBotListElt;
         let numero_brain = 0;
         let numero_com = 0;
-        let firstUpdate = true
+        let firstUpdate = true;
+        let firstReplace=true;
         function init() {
 
 
@@ -19,6 +20,7 @@
             reloadList();
 
             modal = document.getElementById("newChatBotModal");
+            inputToken = document.getElementById("inputToken");
             inputName = document.getElementById("inputName");
             inputBrain = document.getElementsByName("choix_cerveau");
             inputCom = document.getElementsByName("choix_com");
@@ -185,6 +187,7 @@
 
             let modal = document.getElementById("updateChatBotModal");
             let inputName = document.getElementById("inputNameUpdate");
+            let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
 			let updateChatBotButton = document.getElementById("updateChatBotButton");
@@ -215,7 +218,9 @@
                 let payload = {
                     name: inputName.value,
                     cerveau: inputBrain[numero_brain].id,
-                    com: inputCom[numero_com].id
+                    com: inputCom[numero_com].id,
+                    token: inputToken.value
+
                 };
 
                 let myBody = JSON.stringify(payload);
@@ -279,7 +284,8 @@
             let payload = {
                 name: inputName.value,
                 cerveau: inputBrain[numero_brain].id,
-                com: inputCom[numero_com].id
+                com: inputCom[numero_com].id,
+                token : inputToken.value
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -352,6 +358,12 @@
                 <input type="radio" name="choix_com" id="Discord" />
                 <label> Discord </label><br />
             </p>
+
+            <p>
+                <label for="inputToken">Token:</label>
+                <input type="text" id="inputToken" name="Token"></input>
+
+            </p>
             <button id="addNewChatBotButton">Ajouter le ChatBot</button>
         </div>
     </div>
@@ -407,6 +419,12 @@
                 <label> Local </label> <br />
                 <input type="radio" name="choix_com" id="Discord" />
                 <label> Discord </label><br />
+            </p>
+
+            <p>
+                <label for="inputTokenUpdate">Token:</label>
+                <input type="text" id="inputTokenUpdate" name="Token"></input>
+
             </p>
             <button id="updateChatBotButton">Mettre à jour le ChatBot</button>
         </div>

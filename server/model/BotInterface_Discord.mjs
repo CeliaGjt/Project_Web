@@ -54,7 +54,7 @@ class BotInterface_Discord extends BotInterface {
 
 
 	this.client.on('messageCreate', message => {
-  	if(message.channel.name == "general" && message.author.id != this.client.application.id ){
+  	if(message.channel.name == "general" && message.author.id != 979857187193094196 &&  message.author.id !=961279725676945480 ){
 		let entry = message.content 
 		console.log(entry)
 		this.reply(entry).then(function(reply){
@@ -71,8 +71,7 @@ class BotInterface_Discord extends BotInterface {
 		
 		console.log('...Loaded');
 		// Login to Discord with your client's token
-		// this.client.login(this.com.option.token);
-		this.client.login("OTYxMjc5NzI1Njc2OTQ1NDgw.G_uw50.fDCLUUbW5vRswA7kLa-EEoGJn151aXNDRTaFcY");
+		this.client.login(this.botProfile.token);
 	
 		
 	}

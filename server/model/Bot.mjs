@@ -45,16 +45,16 @@ class Bot{
     } else {
       this.com = "";
     }
-    // if (this.com=="Discord"){
-    //   if(undefined != data.token) {
-    //     if(!isString(data.token)){
-    //       throw new Error("Bot Creation : passed cerveau is not a cerveau");
-    //     }
-    //     this.token = data.token;
-    //   } else {
-    //     this.token = "";
-    //   }
-    // }
+    if (this.com=="Discord"){
+      if(undefined != data.token) {
+        if(!isString(data.token)){
+          throw new Error("Bot Creation : passed cerveau is not a cerveau");
+        }
+        this.token = data.token;
+      } else {
+        this.token = "";
+      }
+    }
 
     this.port = newPortDispo;
     newPortDispo+=1;
