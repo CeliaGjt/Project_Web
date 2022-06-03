@@ -100,6 +100,8 @@ app.get('/:idd', (req, res)=>{
 	}
 });
 
+
+//Update a bot
 app.patch('/:id',(req,res)=>{
 	let id = req.params.id;
 	if(!isInt(id)) { //Should I propagate a bad parameter to the model?
@@ -120,19 +122,22 @@ app.patch('/:id',(req,res)=>{
 	}	
 });
 
+//Delete a bot
 app.delete('/:id',(req,res)=>{
 	let id = req.params.id;
-	try{
-		let myBot = BotServiceInstance.removeBot(id);
-		res.status(200).json(myBot);
-	}
-	catch(err){
-		console.log(`Error ${err} thrown`);
-		res.status(204).send('NOT FOUND');
-	}
-
+	BotServiceInstance
+		.removeBot(id) 
+		.then((returnString)=>{
+			console.log(returnString);
+			res.status(200).send(id);
+		})
+		.catch((err)=>{
+			console.log(`Error ${err} thrown`);
+			res.status(204).send('NOT FOUND');
+		});	
 });
 
+//Replace a bot
 app.put('/:id',(req,res)=>{
 	let id = req.params.id;
 	if(!isInt(id)) { //Should I propagate a bad parameter to the model?
@@ -141,7 +146,7 @@ app.put('/:id',(req,res)=>{
 	}else{
 		let newValues = req.body; //the client is responsible for formating its request with proper syntax.
 		BotServiceInstance
-			.replaceTask(id, newValues)
+			.replaceBot(id, newValues)
 			.then((returnString)=>{
 				console.log(returnString);
 				res.status(201).send('All is OK');
@@ -154,9 +159,8 @@ app.put('/:id',(req,res)=>{
 });
 
 
-
-app.post('/',(req,res)=>{
-	
+//Add a bot 
+app.post('/',(req,res)=>{	
 	let theBotToAdd = req.body;
 	console.log(req.body);
 	BotServiceInstance
@@ -230,22 +234,7 @@ function isInt(value) {
 	return !isNaN(value) && (x | 0) === x;
   }
 
-bot.on('ready', function () {console.log("Je suis connectée !")})
 
-bot.on('messageCreate', message => {
-  	if(message.channel.name == "general" && message.author.id != bot.application.id && a==true){
-		let entry = message.content 
-		script.reply(message.author.name, entry).then(function(reply){
-			var output = reply;
-			if(output != "ERR: No Reply Matched"){
-				message.channel.send(output)
-			}
-			else{
-				message.channel.send("Exprime toi mieux")
-			}
-		});
-	}
-})
 
 	
 	

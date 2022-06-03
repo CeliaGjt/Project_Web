@@ -5,28 +5,27 @@ class BotService_Array{
 		this.array = new Array();
 	}
 
-	static async create(){ 
-		
+	static async create(){ 		
 		return new BotService_Array();
 	}
 
+	//from POST
 	async addBot(anObject){
 		let newBot;
 		try{
 			newBot = new Bot(anObject);
-			// bot.login("OTYxMjc5NzI1Njc2OTQ1NDgw.GxOIAU.X4IK9VMbqmtkLicjFGc0SNa2gn3hz19AdWpEpw")
 		}catch(err){
 			throw err; //throwing an error inside a Promise
 		}
 		this.array.push(newBot);
-		return `added bot of id ${newBot.id}`;
+		return `bot of id ${newBot.id} added`;
 	}
 
 	//from PUT
 	async replaceBot(id, anObject){
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
-			//At this point, you may have a safeguard to verify if the given Object is a Bot
+			//verify if the given Object is a Bot
 			if(Bot.isBot(anObject)){
 				/// Just replace it already!
 				this.array.splice(index,1,anObject);
@@ -41,13 +40,13 @@ class BotService_Array{
 	async updateBot(id, anObject){
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
-			//At this point, you may have a safeguard to verify if the fields of the given Object are from a Bot
+			//verify if the fields of the given Object are from a Bot
 			for(let property in anObject){
 				if(!Bot.isValidProperty(property,anObject[property])){
 					throw new Error(`given property is not a valid Bot property : ${anObject}`);	
 				}
 			}
-			//At this point, we are sure that all properties are valid and that we can make the update.
+			//All properties are valid, we can make the update.
 			for(let property in anObject){
 				(this.array)[index][property] = anObject[property];
 			}
@@ -56,15 +55,15 @@ class BotService_Array{
 		throw new Error(`cannot find Bot of id ${id}`);
 	}
 
+	//from DELETE
 	async removeBot(id, bot){
 
 		let index = this.array.findIndex(e=> e.id == id);
 		if(index >-1 ){
 			this.array.splice(index,1);
-			return `removed Bot of id ${id}`;
+			return `Bot of id ${id} removed`;
 		}
-		throw new Error(`cannot find Bot of id ${id}`);
-		
+		throw new Error(`cannot find Bot of id ${id}`);	
 	}
 
 	getBot(id){
