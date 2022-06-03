@@ -29,10 +29,9 @@
             addNewChatBotButton.addEventListener("click", createNewChatBot);
 
             replaceChatBotButton = document.getElementById("replaceChatBotButton");
-            replaceChatBotButton.addEventListener("click", replaceBot);
-
+            
             updateChatBotButton = document.getElementById("updateChatBotButton");
-            updateChatBotButton.addEventListener("click", updateBot);
+            
         }
 
 
@@ -83,13 +82,14 @@
             // Adding a REPLACE Button
             let putBtn = document.createElement("button");
             putBtn.innerHTML = "REPLACE";
-            putBtn.setAttribute("onclick", `replaceBot(${bot.id})`);
+            putBtn.setAttribute("onclick",`replaceBot(${bot.id})` );
             item.appendChild(putBtn);
+            
 
             // Adding an UPDATE Button
             let patchBtn = document.createElement("button");
             patchBtn.innerHTML = "UPDATE";
-            patchBtn.setAttribute("onclick", `updateBot(${bot.id})`);
+            patchBtn.setAttribute("onclick",`updateBot(${bot.id})` );
             item.appendChild(patchBtn);
 
             item.innerHTML += ` ${bot.name}`;
@@ -135,36 +135,46 @@
             console.log(`replacing bot with Id ${botId}`);
 
             let modal = document.getElementById("replaceChatBotModal");
+            let inputName = document.getElementById("inputNameReplace");
+            let inputBrain = document.getElementsByName("choix_cerveau");
+            let inputCom = document.getElementsByName("choix_com");
+			let replaceChatBotButton = document.getElementById("replaceChatBotButton");
+
             modal.style.display = "block";
 
-            let myHeaders = new Headers();
-            myHeaders.append('Content-Type', 'application/json');
-            let payload = {
-                name: inputName.value,
-                cerveau: inputBrain.id
-            };
-            let myBody = JSON.stringify(payload);
-            let myInit = {
-                method: 'PUT',
-                headers: myHeaders,
-                mode: 'cors',
-                cache: 'default',
-                body: myBody
-            };
-            let myURL = "http://localhost:3001/";
+            replaceChatBotButton.addEventListener("click",()=>{
+  				modal.style.display = "none"; // Make the modal disapear
 
-            //launch the request
-            fetch(myURL, myInit)
-                .then((httpResponse) => {
-                    return httpResponse.text();
-                })
-                .then((responseBody) => {
-                    reloadList();// don't forget to reload
-                    console.log(`response is ${responseBody}`);
-                })
-                .catch((err) => {
-                    console.log(`ERROR : ${err}`);
-                })
+                let myHeaders = new Headers();
+                myHeaders.append('Content-Type', 'application/json');
+                let payload = {
+                    name: inputName.value,
+                    cerveau: inputBrain.id
+                };
+                let myBody = JSON.stringify(payload);
+                let myInit = {
+                    method: 'PUT',
+                    headers: myHeaders,
+                    mode: 'cors',
+                    cache: 'default',
+                    body: myBody
+                };
+                let myURL = `http://localhost:3001/${botId}`;
+
+                //launch the request
+                fetch(myURL, myInit)
+                    .then((httpResponse) => {
+                        return httpResponse.text();
+                    })
+                    .then((responseBody) => {
+                        reloadList();// don't forget to reload
+                        console.log(`response is ${responseBody}`);
+                    })
+                    .catch((err) => {
+                        console.log(`ERROR : ${err}`);
+                    })
+            })
+            replaceChatBotButton.removeEventListener();
         }
 
 
@@ -173,39 +183,68 @@
             console.log(`updating bot with Id ${botId}`);
 
             let modal = document.getElementById("updateChatBotModal");
+            let inputName = document.getElementById("inputNameUpdate");
+            let inputBrain = document.getElementsByName("choix_cerveau");
+            let inputCom = document.getElementsByName("choix_com");
+			let updateChatBotButton = document.getElementById("updateChatBotButton");
+
             modal.style.display = "block";
 
-            let myHeaders = new Headers();
-            myHeaders.append('Content-Type', 'application/json');
+            updateChatBotButton.addEventListener("click",()=>{
+  				modal.style.display = "none"; // Make the modal disapear
 
-            let payload = {
-                name: inputName.value,
-                cerveau: inputBrain.id
-            };
+                for (var i = 0, length = inputBrain.length; i < length; i++) {
+                    if (inputBrain[i].checked) { 
+                        numero_brain=i;
+                        break;
+                    }
+                }
+                for (var i = 0, length = inputCom.length; i < length; i++) {
+                    if (inputCom[i].checked) { 
+                        numero_com=i;
+                        break;
+                    }
+                }
+                
 
-            let myBody = JSON.stringify(payload);
-            let myInit = {
-                method: 'PATCH',
-                headers: myHeaders,
-                mode: 'cors',
-                cache: 'default',
-                body: myBody
-            };
-            let myURL = "http://localhost:3001/";
 
-            //launch the request
-            fetch(myURL, myInit)
-                .then((httpResponse) => {
-                    return httpResponse.text();
-                })
-                .then((responseBody) => {
-                    reloadList();// don't forget to reload
-                    console.log(`response is ${responseBody}`);
-                })
-                .catch((err) => {
-                    console.log(`ERROR : ${err}`);
-                })
-            console.log("Requête PATCH envoyée avec succès");
+                let myHeaders = new Headers();
+                myHeaders.append('Content-Type', 'application/json');
+
+                let payload = {
+                    name: inputName.value,
+                    cerveau: inputBrain[numero_brain].id,
+                    com: inputCom[numero_com].id
+                };
+
+                let myBody = JSON.stringify(payload);
+                let myInit = {
+                    method: 'PATCH',
+                    headers: myHeaders,
+                    mode: 'cors',
+                    cache: 'default',
+                    body: myBody
+                };
+                let myURL = `http://localhost:3001/${botId}`;
+
+                console.log(inputName.value); // Envoie le titre
+                console.log(inputBrain[numero_brain].id); // Envoie "cerveau1" ou "cerveau2"
+
+                //launch the request
+                fetch(myURL, myInit)
+                    .then((httpResponse) => {
+                        return httpResponse.text();
+                    })
+                    .then((responseBody) => {
+                        reloadList();// don't forget to reload
+                        console.log(`response is ${responseBody}`);
+                    })
+                    .catch((err) => {
+                        console.log(`ERROR : ${err}`);
+                    })
+                console.log("Requête PATCH envoyée avec succès");
+                
+            })
         }
 
 
@@ -319,7 +358,7 @@
             <h1>Replace a new ChatBot</h1>
             <p>
                 <label for="inputName">Nom du ChatBot:</label>
-                <input type="text" id="inputName" name="name"></input>
+                <input type="text" id="inputNameReplace" name="name"></input>
             </p>
 
             <p>
@@ -328,6 +367,13 @@
                 <label> Cerveau 1 </label> <br />
                 <input type="radio" name="choix_cerveau" id="cerveau2" />
                 <label> Cerveau 2 </label><br />
+            </p>
+            <p>
+                <label>Choix de l'interface: </label>
+                <input type="radio" name="choix_com" id="Local" autofocus checked />
+                <label> Local </label> <br />
+                <input type="radio" name="choix_com" id="Discord" />
+                <label> Discord </label><br />
             </p>
             <!-- On réutilise le bouton addnewChatButton ??-->
             <button id="replaceChatBotButton">Remplacer le ChatBot</button>
@@ -341,7 +387,7 @@
             <h1>Update ChatBot</h1>
             <p>
                 <label for="inputName">Nom du ChatBot:</label>
-                <input type="text" id="inputName" name="name"></input>
+                <input type="text" id="inputNameUpdate" name="name"></input>
             </p>
 
             <p>
@@ -351,7 +397,14 @@
                 <input type="radio" name="choix_cerveau" id="cerveau2" />
                 <label> Cerveau 2 </label><br />
             </p>
-            <button id="updateChatBotButton">Ajouter le ChatBot</button>
+            <p>
+                <label>Choix de l'interface: </label>
+                <input type="radio" name="choix_com" id="Local" autofocus checked />
+                <label> Local </label> <br />
+                <input type="radio" name="choix_com" id="Discord" />
+                <label> Discord </label><br />
+            </p>
+            <button id="updateChatBotButton">Mettre à jour le ChatBot</button>
         </div>
     </div>
 
