@@ -134,6 +134,7 @@ app.delete('/:id',(req,res)=>{
 	}
 
 });
+
 app.put('/:id',(req,res)=>{
 	let id = req.params.id;
 	if(!isInt(id)) { //Should I propagate a bad parameter to the model?
@@ -191,7 +192,8 @@ app.post('/:id', async (req, res) => {
 				try {
 					var worker = new Worker('./worker.mjs', {
 						workerData: {
-							id: id,	
+							id: id,
+							botToTalk: BotServiceInstance.getBot(id)
 						}
 					});
 					worker.on('error', (err) => {
@@ -232,28 +234,22 @@ function isInt(value) {
 	return !isNaN(value) && (x | 0) === x;
   }
 
-  bot.on('ready', function () {console.log("Je suis connectée !")})
+bot.on('ready', function () {console.log("Je suis connectée !")})
 
-  bot.on('messageCreate', message => {
-		  if(message.channel.name == "general" && message.author.id != bot.application.id && a==true)
-		  {
-			  let entry = message.content 
-			  script.reply(message.author.name, entry).then(function(reply)
-				  {
-					  var output = reply;
-					  if(output != "ERR: No Reply Matched")
-					  {
-						  message.channel.send(output)
-					  }
-					  else
-					  {
-						  message.channel.send("Exprime toi mieux")
-					  }
-				  }
-			  );
-		  }
-	  }
-  )
+bot.on('messageCreate', message => {
+  	if(message.channel.name == "general" && message.author.id != bot.application.id && a==true){
+		let entry = message.content 
+		script.reply(message.author.name, entry).then(function(reply){
+			var output = reply;
+			if(output != "ERR: No Reply Matched"){
+				message.channel.send(output)
+			}
+			else{
+				message.channel.send("Exprime toi mieux")
+			}
+		});
+	}
+})
 
 	
 	

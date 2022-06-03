@@ -7,8 +7,7 @@ class BotInterface {
 
 	async loadBot() {
 		var riveBot = new RiveScript();
-		// console.log(`./bot-templates/${this.botProfile.template}.rive`);
-		await riveBot.loadFile(`./brain/cerveau1.rive`);
+		await riveBot.loadFile("./brain/"+this.botProfile.cerveau+".rive");
 		await riveBot.sortReplies();
 		this.bot = riveBot;
 

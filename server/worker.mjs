@@ -34,10 +34,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const id = workerData.id;
-const basicBot = workerData.theBotToAdd
+const basicBot= workerData.botToTalk;
 
 console.log(id)
-console.log(basicBot)
+
 var bot;
 const {
 	BotInterface
@@ -60,20 +60,20 @@ function isString(myVar) {
 bot.loadBot();
 var port =  id ;
 
-	app.patch('/', async (req, res) => {
-		req.headers['content-type'] = 'application/json';
-		let message = req.body.message;
-		if (!isString(message)) {
-			console.log(`not the expected parameter ${JSON.stringify(req.body)} ${!isString(message)}`);
-			//not the expected parameter
-			res.status(400).send('BAD REQUEST');
-		} else {
-			console.log(message);
-			var reply = await bot.reply(message);
-			console.log(reply);
-			res.status(200).json(reply);
-		}
-	});
+app.patch('/', async (req, res) => {
+	req.headers['content-type'] = 'application/json';
+	let message = req.body.message;
+	if (!isString(message)) {
+		console.log(`not the expected parameter ${JSON.stringify(req.body)} ${!isString(message)}`);
+		//not the expected parameter
+		res.status(400).send('BAD REQUEST');
+	} else {
+		console.log(message);
+		var reply = await bot.reply(message);
+		console.log(reply);
+		res.status(200).json(reply);
+	}
+});
 
 
 app.get('/', async (req, res) => {
@@ -82,11 +82,11 @@ app.get('/', async (req, res) => {
 
 app.delete('/', async (req, res) => {
 	console.log('Closing BotInterface');
-			await bot.close();
-			res.status(200).send('DONE');
-			console.log('And out !');
-			process.exit();
-		});
+	await bot.close();
+	res.status(200).send('DONE');
+	console.log('And out !');
+	process.exit();
+});
 
 
 

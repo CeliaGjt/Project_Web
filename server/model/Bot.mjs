@@ -14,7 +14,7 @@ class Bot{
       }
       this.id = data.id;
     } else {
-      this.id = parseInt(    Math.floor(Math.random() * Math.floor(100000))     );
+      this.id = parseInt(    Math.floor(Math.random() * Math.floor(10000))     );
     }
     if(undefined != data.name) {
       if(!isString(data.name)){
