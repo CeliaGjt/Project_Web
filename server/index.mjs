@@ -108,7 +108,8 @@ app.patch('/:id',(req,res)=>{
 		//not the expected parameter
 		res.status(400).send('BAD REQUEST');
 	}else{
-		let newValues = req.body; //the client is responsible for formating its request with proper syntax.
+		let newValues = req.body;
+		console.log(newValues) //the client is responsible for formating its request with proper syntax.
 		BotServiceInstance
 			.updateBot(id, newValues)
 			.then((returnString)=>{
