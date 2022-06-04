@@ -192,9 +192,8 @@ app.post('/:id', async (req, res) => {
 		try {
 			// Seul les bot communiquant via l'interface local peuvent être lancer ce cette manière
 				try {
-					var worker = new Worker('./worker.mjs', {
+					var worker = new Worker('./Bot_thread.mjs', {
 						workerData: {
-							id: id,
 							botToTalk: BotServiceInstance.getBot(id)
 						}
 					});
@@ -232,7 +231,7 @@ BotService_Array.create().then(ts=>{
 		if (bot.com == 'Discord'){
 			console.log('Launching discordBot');
 			try {
-				var worker = new Worker('./worker.mjs', {
+				var worker = new Worker('./Bot_thread.mjs', {
 					workerData: {
 						id: bot.id
 					}

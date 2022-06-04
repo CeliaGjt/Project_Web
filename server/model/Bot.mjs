@@ -10,7 +10,7 @@ class Bot{
   static cerveau = this.cerveau;
   static port = this.port;
   static com=this.com
-  // static token=this.token
+ // static token=this.token
 
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
@@ -64,43 +64,8 @@ class Bot{
     return new Bot(name, cerveau);
   }
 
-  // static async seConnecter(anObject) {
-    
-	// 	let mouth  = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 
-  //   let cerveau = new RiveScript();
-	// 	
-		
 
-    
-	// 	mouth.on('ready', function () { console.log("Je suis connectée !") })
-	
-	// 	mouth.on('messageCreate', message => {
-	// 		if (message.channel.name == "general" && message.author.id != mouth.application.id) {
-	// 			let entry = message.content
-	// 			cerveau.reply(message.author.name, entry).then(function (reply) {
-	// 				var output = reply;
-	// 				if (output != "ERR: No Reply Matched") {
-	// 					message.channel.send(output)
-	// 				}
-	// 				else {
-	// 					message.channel.send("Exprime toi mieux")
-	// 				}
-	// 			});
-	// 		}
-	// 	})
-
-  //   mouth.login("OTYxMjc5NzI1Njc2OTQ1NDgw.GxOIAU.X4IK9VMbqmtkLicjFGc0SNa2gn3hz19AdWpEpw")
-	// }
-  async loading_done() {
-    console.log("Le bot a fini d'apprendre ");
-    this.script.sortReplies();
-  }
-  
-  
-  async loading_error(error, filename, lineno) {
-    console.log("Error when loading files: " + error);
-  }
   
   static isBot(anObject){
     // check if mandatory fields are there
