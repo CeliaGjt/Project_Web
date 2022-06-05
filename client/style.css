@@ -1,3 +1,84 @@
+body
+{
+	margin: 50px ;
+	font: 1em 'Segoe UI', helvetica, sans-serif ;
+    text-align: center;
+}
+
+h2{
+    color : #9a031e;
+}
+
+/* CSS header et nav*/
+#header
+{
+    width: 800px ;
+	margin: 0 auto ;
+	border: 2px solid #9a031e;
+    text-align: center;
+    font-weight: 300;
+}
+
+#menu
+{
+	height: 50px ;
+	list-style-type: none ;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+#menu li a {
+    display: block;
+    color: #3b252c;
+    padding: 15px 130px 15px 130px;
+    background-color: #f5ebe6;
+    text-decoration: none;
+}
+
+#menu li a:hover {
+    background-color: #3b252c;
+    color: #f5ebe6;
+}
+
+/* CSS spécifique interface comm*/
+
+#choixBot{
+    display: flex;
+}
+
+select{
+    width: 30%;
+    color: #3b252c;
+}
+
+input[type=text ]{
+    width: 80%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #f5ebe6;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color : #3b252c;;
+}
+
+button[type=button]{
+    width: 15%;
+    border: 1px solid #9a031e;
+    box-sizing: border-box;
+    background-color: #f5ebe6;
+    color :#3b252c;
+}
+
+
+#chat{
+    color: #3b252c;
+}
+
+/* CSS spécifique interface admin*/
+
 .modal {
     display: none;
     position: fixed;
@@ -18,41 +99,45 @@
     width: 50%;
 }
 
-body
-{
-	margin: 50px ;
-	font: 1em "Trebuchet MS", helvetica, sans-serif ;
+ul{
+    list-style-type: none ;
+    text-align: left;
+
+}
+
+#newChatBotButton {
+    width: 15%;
+    border: 1px solid #9a031e;
+    box-sizing: border-box;
+    background-color: #f5ebe6;
+    color :#3b252c;
+}
+
+/* CSS pour le footer */
+
+footer{
+    position: fixed;
+    width: 100%;
+	background-color: #3b252c;
+    left: 0;
+    bottom: 0;
+	color : white;
 }
 
 
-#header
-{
-    width: 800px ;
-	margin: 0 auto ;
-	border: 2px solid rgb(220, 236, 251);
-    text-align: center;
-}
-
-#menu
-{
-	height: 50px ;
-	list-style-type: none ;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
-}
-
-#menu li a {
-    display: block;
-    color: rgba(2, 2, 2, 0.755);
-    padding: 15px 130px 15px 130px;
-    background-color: rgb(220, 236, 251);
+footer a{
+    margin-left: 1em;
+	color : white;
     text-decoration: none;
+    font-size: 0.3cm;
+    padding-top: 0.3cm;
 }
+footer a:hover {
 
-/* Change the link color on hover */
-#menu li a:hover {
-    background-color: #555;
-    color: white;
+    color: #e3d5ca;;
+}
+footer p#credit{
+    text-align: center;
+	color : white;
+    font-size: 0.2cm;
 }
