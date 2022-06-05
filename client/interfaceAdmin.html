@@ -20,9 +20,7 @@
         let ChatBotListElt;
         let numero_brain = 0;
         let numero_com = 0;
-        let firstUpdate = true;
-        let firstReplace = true;
-        let ancienBotId = 0;
+
         function init() {
 
 
@@ -88,20 +86,20 @@
 
             // Adding a DELETE Button
             let delBtn = document.createElement("button");
-            delBtn.innerHTML = "DELETE";
+            delBtn.innerHTML = "SUPPRIMER";
             delBtn.setAttribute("onclick", `deleteBot(${bot.id})`);
             item.appendChild(delBtn);
 
             // Adding a REPLACE Button
             let putBtn = document.createElement("button");
-            putBtn.innerHTML = "REPLACE";
+            putBtn.innerHTML = "REMPLACER";
             putBtn.setAttribute("onclick", `replaceBot(${bot.id})`);
             item.appendChild(putBtn);
 
 
             // Adding an UPDATE Button
             let patchBtn = document.createElement("button");
-            patchBtn.innerHTML = "UPDATE";
+            patchBtn.innerHTML = "METTRE A JOUR";
             patchBtn.setAttribute("onclick", `updateBot(${bot.id})`);
             item.appendChild(patchBtn);
 
@@ -152,15 +150,16 @@
             let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
-            let replaceChatBotButton = document.getElementById("replaceChatBotButton");
+
+
+            let replaceChatBotButton = document.createElement("button");
+            replaceChatBotButton.innerHTML = "Remplacer le ChatBot";
+            modal.appendChild(replaceChatBotButton);
 
             modal.style.display = "block";
 
-            if (firstReplace){
-               
-            
-                replaceChatBotButton.addEventListener("click", () => {
-
+            replaceChatBotButton.addEventListener("click", () => {
+                modal.removeChild(replaceChatBotButton)
 
                 modal.style.display = "none"; // Make the modal disapear
                 console.log(botId)
@@ -209,7 +208,7 @@
                         console.log(`ERROR : ${err}`);
                     })
                 })
-            }
+            
         }
 
 
@@ -222,10 +221,16 @@
             let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
-            let updateChatBotButton = document.getElementById("updateChatBotButton");
+
+            let updateChatBotButton = document.createElement("button");
+            updateChatBotButton.innerHTML = "Mettre à jour le ChatBot";
+            modal.appendChild(updateChatBotButton);
 
             modal.style.display = "block";
-                updateChatBotButton.addEventListener("click", () => {
+
+            updateChatBotButton.addEventListener("click", () => {
+                modal.removeChild(updateChatBotButton)
+
                     modal.style.display = "none"; // Make the modal disapear
                     console.log(botId)
                     for (var i = 0, length = inputBrain.length; i < length; i++) {
@@ -273,9 +278,7 @@
                             reloadList();// don't forget to reload
                             console.log(`response is ${responseBody}`);
 
-                        }).then(
-                            location.reload()
-                        )
+                        })
                         .catch((err) => {
                             console.log(`ERROR : ${err}`);
                         })
@@ -430,8 +433,7 @@
                 <input type="radio" name="choix_com" id="Discord" />
                 <label> Discord </label><br />
             </p>
-            <!-- On réutilise le bouton addnewChatButton ??-->
-            <button id="replaceChatBotButton">Remplacer le ChatBot</button>
+            
         </div>
     </div>
 
@@ -465,7 +467,6 @@
                 <input type="text" id="inputTokenUpdate" name="Token"></input>
 
             </p>
-            <button id="updateChatBotButton">Mettre à jour le ChatBot</button>
         </div>
     </div>
 
