@@ -9,7 +9,7 @@ class Bot{
   static name = this.name;
   static cerveau = this.cerveau;
   static port = this.port;
-  static com=this.com
+  static com = this.com
  // static token=this.token
 
   constructor(data){   //id,title,comment,tags
@@ -59,12 +59,6 @@ class Bot{
     this.port = newPortDispo;
     newPortDispo+=1;
   }
-  
-  static async create(name, cerveau){ 
-    return new Bot(name, cerveau);
-  }
-
-
 
   
   static isBot(anObject){

@@ -117,7 +117,6 @@ app.patch('/:id',(req,res)=>{
 				res.status(201).send('All is OK');
 			})
 			.catch((err)=>{
-				console.log("ici")
 				console.log(`Error ${err} thrown... stack is : ${err.stack}`);
 				res.status(400).send('BAD REQUEST');
 			});	

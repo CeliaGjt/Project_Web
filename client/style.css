@@ -17,3 +17,42 @@
     margin: auto;
     width: 50%;
 }
+
+body
+{
+	margin: 50px ;
+	font: 1em "Trebuchet MS", helvetica, sans-serif ;
+}
+
+
+#header
+{
+    width: 800px ;
+	margin: 0 auto ;
+	border: 2px solid rgb(220, 236, 251);
+    text-align: center;
+}
+
+#menu
+{
+	height: 50px ;
+	list-style-type: none ;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+}
+
+#menu li a {
+    display: block;
+    color: rgba(2, 2, 2, 0.755);
+    padding: 15px 130px 15px 130px;
+    background-color: rgb(220, 236, 251);
+    text-decoration: none;
+}
+
+/* Change the link color on hover */
+#menu li a:hover {
+    background-color: #555;
+    color: white;
+}

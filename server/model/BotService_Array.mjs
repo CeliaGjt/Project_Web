@@ -23,15 +23,17 @@ class BotService_Array{
 
 	//from PUT
 	async replaceBot(id, anObject){
+		let newBot;
+		try{
+			newBot = new Bot(anObject);
+		}catch(err){
+			throw err; //throwing an error inside a Promise
+		}
+
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
-			//verify if the given Object is a Bot
-			if(Bot.isBot(anObject)){
-				/// Just replace it already!
-				this.array.splice(index,1,anObject);
+				this.array.splice(index,1,newBot);
 				return "Done REPLACING";
-			}
-			throw new Error(`given object is not a Bot : ${anObject}`);
 		}
 		throw new Error(`cannot find Bot of id ${id}`);
 	}

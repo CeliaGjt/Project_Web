@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-        <title>ChatBot Admin</title>
-    
-    
-    </head>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ChatBot Admin</title>
+
+
+</head>
+
 <head>
     <link rel="stylesheet" href="style.css" />
 
@@ -19,7 +21,8 @@
         let numero_brain = 0;
         let numero_com = 0;
         let firstUpdate = true;
-        let firstReplace=true;
+        let firstReplace = true;
+        let ancienBotId = 0;
         function init() {
 
 
@@ -39,14 +42,14 @@
             addNewChatBotButton.addEventListener("click", createNewChatBot);
 
             replaceChatBotButton = document.getElementById("replaceChatBotButton");
-            
+
             updateChatBotButton = document.getElementById("updateChatBotButton");
-            
+
         }
 
 
         //Recharge la liste des Bots lancés, à appeler à chaque modification
-        function reloadList() { 
+        function reloadList() {
 
             while (ChatBotListElt.firstChild) {
                 ChatBotListElt.removeChild(ChatBotListElt.firstChild);
@@ -92,14 +95,14 @@
             // Adding a REPLACE Button
             let putBtn = document.createElement("button");
             putBtn.innerHTML = "REPLACE";
-            putBtn.setAttribute("onclick",`replaceBot(${bot.id})` );
+            putBtn.setAttribute("onclick", `replaceBot(${bot.id})`);
             item.appendChild(putBtn);
-            
+
 
             // Adding an UPDATE Button
             let patchBtn = document.createElement("button");
             patchBtn.innerHTML = "UPDATE";
-            patchBtn.setAttribute("onclick",`updateBot(${bot.id})` );
+            patchBtn.setAttribute("onclick", `updateBot(${bot.id})`);
             item.appendChild(patchBtn);
 
             item.innerHTML += ` ${bot.name}`;
@@ -132,6 +135,7 @@
                     return httpResponse.text();
                 })
                 .then((responseBody) => {
+                    console.log("reload")
                     reloadList();// don't forget to reload
                     console.log(`response is ${responseBody}`);
                 })
@@ -143,23 +147,43 @@
 
         function replaceBot(botId) {
             console.log(`replacing bot with Id ${botId}`);
-
-            let modal = document.getElementById("replaceChatBotModal");
+            let modal = document.getElementById("replaceChatBotModal");  
             let inputName = document.getElementById("inputNameReplace");
+            let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
-			let replaceChatBotButton = document.getElementById("replaceChatBotButton");
+            let replaceChatBotButton = document.getElementById("replaceChatBotButton");
 
             modal.style.display = "block";
 
-            replaceChatBotButton.addEventListener("click",()=>{
-  				modal.style.display = "none"; // Make the modal disapear
+            if (firstReplace){
+               
+            
+                replaceChatBotButton.addEventListener("click", () => {
+
+
+                modal.style.display = "none"; // Make the modal disapear
+                console.log(botId)
+                for (var i = 0, length = inputBrain.length; i < length; i++) {
+                    if (inputBrain[i].checked) {
+                        numero_brain = i;
+                        break;
+                    }
+                }
+                for (var i = 0, length = inputCom.length; i < length; i++) {
+                    if (inputCom[i].checked) {
+                        numero_com = i;
+                        break;
+                    }
+                }
 
                 let myHeaders = new Headers();
                 myHeaders.append('Content-Type', 'application/json');
                 let payload = {
                     name: inputName.value,
-                    cerveau: inputBrain.id
+                    cerveau: inputBrain[numero_brain].id,
+                    com: inputCom[numero_com].id,
+                    token: inputToken.value
                 };
                 let myBody = JSON.stringify(payload);
                 let myInit = {
@@ -177,19 +201,20 @@
                         return httpResponse.text();
                     })
                     .then((responseBody) => {
+                        console.log("reload")
                         reloadList();// don't forget to reload
                         console.log(`response is ${responseBody}`);
                     })
                     .catch((err) => {
                         console.log(`ERROR : ${err}`);
                     })
-            })
-            replaceChatBotButton.removeEventListener();
+                })
+            }
         }
 
 
 
-        function updateBot(botId) { 
+        function updateBot(botId) {
             console.log(`updating bot with Id ${botId}`);
 
             let modal = document.getElementById("updateChatBotModal");
@@ -197,70 +222,67 @@
             let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
-			let updateChatBotButton = document.getElementById("updateChatBotButton");
+            let updateChatBotButton = document.getElementById("updateChatBotButton");
 
             modal.style.display = "block";
-			if (firstUpdate) {
-            updateChatBotButton.addEventListener("click",()=>{
-  				modal.style.display = "none"; // Make the modal disapear
-
-                for (var i = 0, length = inputBrain.length; i < length; i++) {
-                    if (inputBrain[i].checked) { 
-                        numero_brain=i;
-                        break;
+            if (firstUpdate) {
+                updateChatBotButton.addEventListener("click", () => {
+                    modal.style.display = "none"; // Make the modal disapear
+                    console.log(botId)
+                    for (var i = 0, length = inputBrain.length; i < length; i++) {
+                        if (inputBrain[i].checked) {
+                            numero_brain = i;
+                            break;
+                        }
                     }
-                }
-                for (var i = 0, length = inputCom.length; i < length; i++) {
-                    if (inputCom[i].checked) { 
-                        numero_com=i;
-                        break;
+                    for (var i = 0, length = inputCom.length; i < length; i++) {
+                        if (inputCom[i].checked) {
+                            numero_com = i;
+                            break;
+                        }
                     }
-                }
-                
 
 
-                let myHeaders = new Headers();
-                myHeaders.append('Content-Type', 'application/json');
 
-                let payload = {
-                    name: inputName.value,
-                    cerveau: inputBrain[numero_brain].id,
-                    com: inputCom[numero_com].id,
-                    token: inputToken.value
+                    let myHeaders = new Headers();
+                    myHeaders.append('Content-Type', 'application/json');
 
-                };
+                    let payload = {
+                        name: inputName.value,
+                        cerveau: inputBrain[numero_brain].id,
+                        com: inputCom[numero_com].id,
+                        token: inputToken.value
 
-                let myBody = JSON.stringify(payload);
-                let myInit = {
-                    method: 'PATCH',
-                    headers: myHeaders,
-                    mode: 'cors',
-                    cache: 'default',
-                    body: myBody
-                };
-                let myURL = `http://localhost:3001/${botId}`;
+                    };
 
-                console.log(inputName.value); // Envoie le titre
-                console.log(inputBrain[numero_brain].id); // Envoie "cerveau1" ou "cerveau2"
+                    let myBody = JSON.stringify(payload);
+                    let myInit = {
+                        method: 'PATCH',
+                        headers: myHeaders,
+                        mode: 'cors',
+                        cache: 'default',
+                        body: myBody
+                    };
+                    let myURL = `http://localhost:3001/${botId}`;
 
-                //launch the request
-                fetch(myURL, myInit)
-                    .then((httpResponse) => {
-                        return httpResponse.text();
-                    })
-                    .then((responseBody) => {
-                        reloadList();// don't forget to reload
-                        console.log(`response is ${responseBody}`);
-                    })
-                    .catch((err) => {
-                        console.log(`ERROR : ${err}`);
-                    })
-                console.log("Requête PATCH envoyée avec succès");
-                
-            })
+                    //launch the request
+                    fetch(myURL, myInit)
+                        .then((httpResponse) => {
+                            return httpResponse.text();
+                        })
+                        .then((responseBody) => {
+                            reloadList();// don't forget to reload
+                            console.log(`response is ${responseBody}`);
+                        })
+                        .catch((err) => {
+                            console.log(`ERROR : ${err}`);
+                        })
+                    console.log("Requête PATCH envoyée avec succès");
 
-            firstUpdate = false
-			}
+                })
+
+                firstUpdate = false
+            }
         }
 
 
@@ -268,16 +290,16 @@
             console.log("Nouveau ChatBot créé");
 
             for (var i = 0, length = inputBrain.length; i < length; i++) {
-                if (inputBrain[i].checked) { 
-                    numero_brain=i;
+                if (inputBrain[i].checked) {
+                    numero_brain = i;
                     break;
-              }
+                }
             }
             for (var i = 0, length = inputCom.length; i < length; i++) {
-                if (inputCom[i].checked) { 
-                    numero_com=i;
+                if (inputCom[i].checked) {
+                    numero_com = i;
                     break;
-              }
+                }
             }
 
             let modal = document.getElementById("newChatBotModal");
@@ -286,13 +308,13 @@
 
             let myHeaders = new Headers();
             myHeaders.append('Content-Type', 'application/json');
-  
+
 
             let payload = {
                 name: inputName.value,
                 cerveau: inputBrain[numero_brain].id,
                 com: inputCom[numero_com].id,
-                token : inputToken.value
+                token: inputToken.value
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -304,8 +326,6 @@
             };
             let myURL = "http://localhost:3001/"; //URL du serveur qui va être lancé
 
-            console.log(inputName.value); // Envoie le titre
-            console.log(inputBrain.id); // Envoie "cerveau1" ou "cerveau2"
 
 
             //launch the request
@@ -334,14 +354,19 @@
 <body>
 
 
-    <h1> Interface d'administration de ChatBots</h1>
-
-
-    <nav>
-		<a href="/client/index.html">Home</a>
-		<a href="/client/interfaceCom.html">Communication</a>
+    <h1 id="header">
+        Projet web ChatBot 
+	</h1>
+	<nav>
+		<ul id="menu">
+            <li><a href="./index.html">Accueil</a></li>
+	    	<li><a href="./interfaceAdmin.html">Plateforme d'administration</a></li>
+			<li><a href="./interfaceCom.html">Plateforme de communication</a></li>
+		</ul>
 	</nav>
+    
     <!-- Liste des ChatBots à afficher -->
+    <h2>Page d'administration de chatbot</h2>
     <ul id="ChatBotListUL">
     </ul>
 
