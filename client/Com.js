@@ -14,7 +14,7 @@ let listeBot;  //Liste déroulante avec les noms des bots
 let refresh;   //Bouton pour rafraichir la liste des chatbots
 let listeIDBot=[];//Liste contenant les id des bots. 
 
-
+let menu;
 
 
 let liste_lien;  //Liste des liens permettant de communiquer avec les bots
@@ -22,14 +22,17 @@ let choice;    //Index du bot sélectionné dans la liste déroulante
 let chat;
 
 
+
 function init(){
+
+    
     message_container = document.getElementById("messages");
     input = document.getElementById("input");
     envoie_message = document.getElementById("envoie_Button");
     listeBot = document.getElementById("listeBot");
     refresh = document.getElementById("refreshBot");
+    menu =document.getElementById("menu")
     chat = document.getElementById("chat");
-
 
     recupBots();
 
@@ -41,8 +44,8 @@ function init(){
     envoie_message.addEventListener('click', newUserMessage);
     input.addEventListener('keydown', ifEnter);
 
+menu.addEventListener('click',supprBots)
 
-    window.addEventListener('unload', supprBots);
 
 }
 
@@ -113,7 +116,17 @@ function changeBot()
 
 
     console.log("Changement de bot");
+
+  
     choice = listeBot.selectedIndex;
+    console.log("la")
+    // for (let pas = 0; pas < listeIDBot.length+1 ; pas++) {
+    //     console.log("la")
+    //     if (pas!=choice)
+    //         console.log("ici")
+    //         supprBot(listeIDBot[pas])
+    //   }
+
     if (choice > 0)
     {
         

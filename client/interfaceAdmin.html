@@ -225,7 +225,6 @@
             let updateChatBotButton = document.getElementById("updateChatBotButton");
 
             modal.style.display = "block";
-            if (firstUpdate) {
                 updateChatBotButton.addEventListener("click", () => {
                     modal.style.display = "none"; // Make the modal disapear
                     console.log(botId)
@@ -273,7 +272,10 @@
                         .then((responseBody) => {
                             reloadList();// don't forget to reload
                             console.log(`response is ${responseBody}`);
-                        })
+
+                        }).then(
+                            location.reload()
+                        )
                         .catch((err) => {
                             console.log(`ERROR : ${err}`);
                         })
@@ -281,8 +283,6 @@
 
                 })
 
-                firstUpdate = false
-            }
         }
 
 

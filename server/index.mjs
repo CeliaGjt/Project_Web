@@ -240,7 +240,6 @@ BotService_Array.create().then(ts=>{
 					throw err;
 				});
 				worker.once('message', (port) => {
-					// const port = 4000 + id * 100 + encode(login);
 					console.log('Launched');
 					discordBots[bot.id] = worker;
 				});

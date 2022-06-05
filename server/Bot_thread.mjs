@@ -44,7 +44,7 @@ else{
 	}
 
 bot.loadBot();
-var port =  basicBot.port +randomInt(1,10000);
+var port =  basicBot.port;
 
 app.patch('/', async (req, res) => {
 	req.headers['content-type'] = 'application/json';
