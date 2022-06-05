@@ -9,6 +9,7 @@ import {
 	workerData,
 	parentPort
 } from 'worker_threads';
+import { randomBytes, randomInt } from 'crypto';
 
 
 
@@ -43,7 +44,7 @@ else{
 	}
 
 bot.loadBot();
-var port =  basicBot.port ;
+var port =  basicBot.port +randomInt(1,10000);
 
 app.patch('/', async (req, res) => {
 	req.headers['content-type'] = 'application/json';
