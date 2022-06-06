@@ -23,6 +23,7 @@ let chat;
 
 
 
+
 function init(){
 
     
@@ -31,7 +32,7 @@ function init(){
     envoie_message = document.getElementById("envoie_Button");
     listeBot = document.getElementById("listeBot");
     refresh = document.getElementById("refreshBot");
-    menu =document.getElementById("menu")
+    menu =document.getElementById("menu");
     chat = document.getElementById("chat");
 
     recupBots();
@@ -42,10 +43,11 @@ function init(){
     listeBot.addEventListener('change', changeBot);
 
     envoie_message.addEventListener('click', newUserMessage);
+
+    
     input.addEventListener('keydown', ifEnter);
 
-menu.addEventListener('click',supprBots)
-
+    menu.addEventListener('click',supprBots);
 
 }
 
