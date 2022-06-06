@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "nodemon": "nodemon --ignore ./model/db.json  index.mjs",
+    "test": "none"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "discord.js": "^13.6.0",
