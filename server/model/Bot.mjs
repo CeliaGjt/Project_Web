@@ -9,8 +9,8 @@ class Bot{
   static name = this.name;
   static cerveau = this.cerveau;
   static port = this.port;
-  static com = this.com
- // static token=this.token
+  static com = this.com;
+
 
   constructor(data){   //id,title,comment,tags
     if(undefined != data.id) {
@@ -87,21 +87,14 @@ function isString(myVar) {
   return (typeof myVar === 'string' || myVar instanceof String) ;
 }
 
-function isDate (x) 
-{ 
-  return (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate); 
-}
 
-function isArrayOfStrings(value){
+/* function isArrayOfStrings(value){
   if(!Array.isArray(value)) return false;
   for(let item of value){
     if(!isString(item)) return false;
   }
   return true;
-}
-
-
-
+} */
 
 
 export {Bot}

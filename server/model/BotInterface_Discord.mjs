@@ -31,7 +31,7 @@ class BotInterface_Discord extends BotInterface {
 				message.channel.send(output)
 			}
 			else{
-				message.channel.send("Exprime toi mieux")
+				message.channel.send("Désolé, je n'ai pas compris")
 			}
 		});
 	}
