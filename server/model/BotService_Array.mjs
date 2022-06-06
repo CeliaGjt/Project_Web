@@ -18,7 +18,7 @@ class BotService_Array{
 			throw err; //throwing an error inside a Promise
 		}
 		this.array.push(newBot);
-		return `bot of id ${newBot.id} added`;
+		return `bot avec l'id ${newBot.id} ajouté`;
 	}
 
 	//from PUT
@@ -33,9 +33,9 @@ class BotService_Array{
 		let index = this.array.findIndex(e=> e.id == id);	
 		if(index >-1 ){
 				this.array.splice(index,1,newBot);
-				return "Done REPLACING";
+				return "REMPLACEMENT terminé";
 		}
-		throw new Error(`cannot find Bot of id ${id}`);
+		throw new Error(`Ne trouve pas de bot d'id ${id}`);
 	}
 
 	//from PATCH
@@ -52,9 +52,9 @@ class BotService_Array{
 			for(let property in anObject){
 				(this.array)[index][property] = anObject[property];
 			}
-			return "Done UPDATING";
+			return "MISE A JOUR terminée";
 		}
-		throw new Error(`cannot find Bot of id ${id}`);
+		throw new Error(`Ne trouve pas de bot d'id ${id}`);
 	}
 
 	//from DELETE
@@ -63,9 +63,9 @@ class BotService_Array{
 		let index = this.array.findIndex(e=> e.id == id);
 		if(index >-1 ){
 			this.array.splice(index,1);
-			return `Bot of id ${id} removed`;
+			return `Bot d'id ${id} supprimé`;
 		}
-		throw new Error(`cannot find Bot of id ${id}`);	
+		throw new Error(`Ne trouve pas de bot d'id ${id}`);	
 	}
 
 	getBot(id){
@@ -73,7 +73,7 @@ class BotService_Array{
 		if(index >-1 ){
 			return  (this.array)[index];
 		}
-		throw new Error(`cannot find Bot of id ${id}`);	
+		throw new Error(`Ne trouve pas de bot d'id ${id}`);	
 	}
 
 	getBots(){

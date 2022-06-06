@@ -1,12 +1,12 @@
 import RiveScript from 'rivescript';
 
 class BotInterface {
-	constructor(botProfile, userProfile) {
+	constructor(botProfile) {
 		this.botProfile = botProfile;
-		this.userProfile = userProfile;
 	}
 
 	async loadBot() {
+		//charger un nouveau cerveau pour le bot
 		var riveBot = new RiveScript();
 		await riveBot.loadFile("./brain/"+this.botProfile.cerveau+".rive");
 		await riveBot.sortReplies();
@@ -17,9 +17,8 @@ class BotInterface {
 
 
 	async reply(message) {
-		// var reply = await ;
-		console.log(`Repling to :${message}`);
-		return this.bot.reply(userProfile.name, message);
+		console.log(`Réponse au message :${message}`);
+		return this.bot.reply("user", message);
 	}
 
 

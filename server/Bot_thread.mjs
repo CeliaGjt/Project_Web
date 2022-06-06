@@ -50,7 +50,7 @@ app.patch('/', async (req, res) => {
 	req.headers['content-type'] = 'application/json';
 	let message = req.body.message;
 	if (!isString(message)) {
-		console.log(`not the expected parameter ${JSON.stringify(req.body)} ${!isString(message)}`);
+		console.log(`Ce n'est pas le parametre attendu ${JSON.stringify(req.body)} ${!isString(message)}`);
 		//not the expected parameter
 		res.status(400).send('BAD REQUEST');
 	} else {

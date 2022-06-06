@@ -12,10 +12,10 @@ class Bot{
   static com = this.com;
 
 
-  constructor(data){   //id,title,comment,tags
+  constructor(data){   
     if(undefined != data.id) {
       if(!isInt(data.id)){
-        throw new Error("Bot Creation : passed Id is not an integer");
+        throw new Error("Création de Bot: l'id n'est pas un Int");
       }
       this.id = data.id;
     } else {
@@ -23,7 +23,7 @@ class Bot{
     }
     if(undefined != data.name) {
       if(!isString(data.name)){
-        throw new Error("Bot Creation : passed Title is not a string");
+        throw new Error("Création de bot : le nom n'est pas un String");
       }
       this.name = data.name;
     } else {
@@ -31,7 +31,7 @@ class Bot{
     }
     if(undefined != data.cerveau) {
       if(!isString(data.cerveau)){
-        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+        throw new Error("Création de bot : le cerveau n'est pas un String");
       }
       this.cerveau = data.cerveau;
     } else {
@@ -39,7 +39,7 @@ class Bot{
     }
     if(undefined != data.com) {
       if(!isString(data.com)){
-        throw new Error("Bot Creation : passed cerveau is not a cerveau");
+        throw new Error("Création de bot : le canal de communication n'est pas un String");
       }
       this.com = data.com;
     } else {
@@ -48,7 +48,7 @@ class Bot{
     if (this.com=="Discord"){
       if(undefined != data.token) {
         if(!isString(data.token)){
-          throw new Error("Bot Creation : passed cerveau is not a cerveau");
+          throw new Error("Création de bot : le token n'est pas un String");
         }
         this.token = data.token;
       } else {
@@ -65,6 +65,21 @@ class Bot{
     // check if mandatory fields are there
     let hasMandatoryProperties = Object.keys(this).every(key=> anObject.hasOwnProperty(key));
     // we should also check the property values (if are strings, etc ... as in constructor) 
+    if(!isInt(anObject.id)){
+      throw new Error("Création de Bot: l'id n'est pas un Int");
+    }
+    if(!isString(anObject.name)){
+      throw new Error("Création de bot : le nom n'est pas un String");
+    }
+    if(!isString(anObject.cerveau)){
+      throw new Error("Création de bot : le cerveau n'est pas un String");
+    }
+    if(!isString(anObject.com)){
+      throw new Error("Création de bot : le canal de communication n'est pas un String");
+    } 
+    if(!isString(anObject.token)){
+      throw new Error("Création de bot : le token n'est pas un String");
+    }
     return hasMandatoryProperties;
   }
 
@@ -73,6 +88,21 @@ class Bot{
       return false;
     }
     // we should also check the property values (if are strings, etc ... as in constructor) 
+    if(propertyName == id && !isInt(propertyValue)){
+      throw new Error("l'id n'est pas un Int");
+    }
+    if(propertyName == name && !isString(propertyValue)){
+      throw new Error("le nom n'est pas un String");
+    }
+    if(propertyName == cerveau && !isString(propertyValue)){
+      throw new Error("le cerveau n'est pas un String");
+    }
+    if(propertyName == com && !isString(propertyValue)){
+      throw new Error("le canal de communication n'est pas un String");
+    } 
+    if(propertyName == token && !isString(propertyValue)){
+      throw new Error("le token n'est pas un String");
+    }
     return true;
   }
 
@@ -87,14 +117,6 @@ function isString(myVar) {
   return (typeof myVar === 'string' || myVar instanceof String) ;
 }
 
-
-/* function isArrayOfStrings(value){
-  if(!Array.isArray(value)) return false;
-  for(let item of value){
-    if(!isString(item)) return false;
-  }
-  return true;
-} */
 
 
 export {Bot}

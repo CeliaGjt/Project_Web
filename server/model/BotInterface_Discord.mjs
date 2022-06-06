@@ -37,7 +37,7 @@ class BotInterface_Discord extends BotInterface {
 	}
 })
 		
-		console.log('...Loaded');
+		console.log('...Chargement terminé');
 		this.client.login(this.botProfile.token);
 	
 		
