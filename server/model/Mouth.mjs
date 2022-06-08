@@ -22,6 +22,10 @@ class Mouth {
 		return this.bot.reply("user", message);
 	}
 
+
+	
+	async close(){
+	}
 }
 
 export {Mouth};
