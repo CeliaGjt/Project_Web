@@ -9,7 +9,7 @@ import {
 	workerData,
 	parentPort
 } from 'worker_threads';
-import { randomBytes, randomInt } from 'crypto';
+
 
 
 
@@ -25,33 +25,35 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-const basicBot= workerData.botToTalk;
+const envoyé_Bot= workerData.botToTalk;
 
 
 
 var bot;
-const { BotInterface_Discord } =  await import('./model/BotInterface_Discord.mjs');
-const {	BotInterface } =  await import('./model/BotInterface.mjs');
+const { Mouth_Discord } =  await import('./model/Mouth_Discord.mjs');
+const {	Mouth } =  await import('./model/Mouth.mjs');
 
 
 
 
-if (basicBot.com=="Discord"){
-	bot = new BotInterface_Discord(basicBot);
+// Instancie un bot local ou discord selon ses caractéristiques 
+
+if (envoyé_Bot.com=="Discord"){
+	bot = new Mouth_Discord(envoyé_Bot);
 	}
 else{
-	bot = new BotInterface(basicBot);
+	bot = new Mouth(envoyé_Bot);
 	}
 
 bot.loadBot();
-var port =  basicBot.port;
+var port =  envoyé_Bot.port;
 
+
+// Patch pour la réponse
 app.patch('/', async (req, res) => {
 	req.headers['content-type'] = 'application/json';
 	let message = req.body.message;
 	if (!isString(message)) {
-		console.log(`Ce n'est pas le parametre attendu ${JSON.stringify(req.body)} ${!isString(message)}`);
-		//not the expected parameter
 		res.status(400).send('BAD REQUEST');
 	} else {
 		console.log(message);
@@ -61,13 +63,15 @@ app.patch('/', async (req, res) => {
 	}
 });
 
-
+// requete GET
 app.get('/', async (req, res) => {
 	res.status(200).json(bot);
 });
 
+
+// delete pour fermer le mouth
 app.delete('/', async (req, res) => {
-	console.log(' BotInterface de '+basicBot.name+ ' se ferme');
+	console.log(' Mouth de '+envoyé_Bot.name+ ' se ferme');
 	await bot.close();
 	res.status(200).send('Fini');
 	console.log('Au revoir !');

@@ -188,9 +188,6 @@ let discordBots = {};
 
 BotService_Array.create().then(ts=>{
 	BotServiceInstance=ts;
-	/*BotServiceInstance
-		.catch((err)=>{console.log(err);});*/
-
 		let bots = ts.getBots();
 		bots.forEach(bot => {
 		if (bot.com == 'Discord'){
