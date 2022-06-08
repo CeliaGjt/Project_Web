@@ -3,6 +3,10 @@ import {
 	Client,
 	Intents
 } from 'discord.js';
+import { readFile } from "fs/promises";
+
+const token = JSON.parse(await readFile('./model/config.json'));
+
 
 class Mouth_Discord extends Mouth {
 	constructor(bot) {
@@ -38,7 +42,8 @@ class Mouth_Discord extends Mouth {
 		})
 		
 		console.log('...Chargement terminé');
-		this.client.login("OTYxMjc5NzI1Njc2OTQ1NDgw.Gyoi9G.44uP32ZzxOKSIcgj318fUQ8pBbjW47nOFaqg88");
+		console.log(token)
+		this.client.login(token.token);
 	
 		
 	}
