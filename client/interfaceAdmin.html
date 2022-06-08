@@ -28,7 +28,7 @@
             reloadList();
 
             modal = document.getElementById("newChatBotModal");
-            inputToken = document.getElementById("inputToken");
+
             inputName = document.getElementById("inputName");
             inputBrain = document.getElementsByName("choix_cerveau");
             inputCom = document.getElementsByName("choix_com");
@@ -147,7 +147,6 @@
             console.log(`replacing bot with Id ${botId}`);
             let modal = document.getElementById("replaceChatBotModal");  
             let inputName = document.getElementById("inputNameReplace");
-            let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
 
@@ -182,7 +181,6 @@
                     name: inputName.value,
                     cerveau: inputBrain[numero_brain].id,
                     com: inputCom[numero_com].id,
-                    token: inputToken.value
                 };
                 let myBody = JSON.stringify(payload);
                 let myInit = {
@@ -218,7 +216,6 @@
 
             let modal = document.getElementById("updateChatBotModal");
             let inputName = document.getElementById("inputNameUpdate");
-            let inputToken = document.getElementById("inputTokenUpdate");
             let inputBrain = document.getElementsByName("choix_cerveau");
             let inputCom = document.getElementsByName("choix_com");
 
@@ -255,7 +252,6 @@
                         name: inputName.value,
                         cerveau: inputBrain[numero_brain].id,
                         com: inputCom[numero_com].id,
-                        token: inputToken.value
 
                     };
 
@@ -317,7 +313,7 @@
                 name: inputName.value,
                 cerveau: inputBrain[numero_brain].id,
                 com: inputCom[numero_com].id,
-                token: inputToken.value
+
             };
             let myBody = JSON.stringify(payload);
             let myInit = {
@@ -401,11 +397,6 @@
                 <label> Discord </label><br />
             </p>
 
-            <p>
-                <label for="inputToken">Token:</label>
-                <input type="text" id="inputToken" name="Token"></input>
-
-            </p>
             <button id="addNewChatBotButton">Ajouter le ChatBot</button>
         </div>
     </div>
@@ -434,11 +425,7 @@
                 <label> Discord </label><br />
             </p>
 
-            <p>
-                <label for="inputTokenUpdate">Token:</label>
-                <input type="text" id="inputTokenUpdate" name="Token"></input>
 
-            </p>
             
         </div>
     </div>
@@ -468,11 +455,7 @@
                 <label> Discord </label><br />
             </p>
 
-            <p>
-                <label for="inputTokenUpdate">Token:</label>
-                <input type="text" id="inputTokenUpdate" name="Token"></input>
 
-            </p>
         </div>
     </div>
 

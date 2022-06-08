@@ -46,14 +46,14 @@ class Bot{
       this.com = "";
     }
     if (this.com=="Discord"){
-      if(undefined != data.token) {
-        if(!isString(data.token)){
-          throw new Error("Création de bot : le token n'est pas un String");
-        }
-        this.token = data.token;
-      } else {
-        this.token = "";
-      }
+      // if(undefined != data.token) {
+      //   if(!isString(data.token)){
+      //     throw new Error("Création de bot : le token n'est pas un String");
+      //   }
+      //   this.token = data.token;
+      // } else {
+      //   this.token = "";
+      // }
     }
 
     this.port = newPortDispo;
@@ -77,9 +77,7 @@ class Bot{
     if(!isString(anObject.com)){
       throw new Error("Création de bot : le canal de communication n'est pas un String");
     } 
-    if(!isString(anObject.token)){
-      throw new Error("Création de bot : le token n'est pas un String");
-    }
+
     return hasMandatoryProperties;
   }
 
@@ -100,9 +98,7 @@ class Bot{
     if(propertyName == com && !isString(propertyValue)){
       throw new Error("le canal de communication n'est pas un String");
     } 
-    if(propertyName == token && !isString(propertyValue)){
-      throw new Error("le token n'est pas un String");
-    }
+
     return true;
   }
 

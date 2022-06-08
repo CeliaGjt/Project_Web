@@ -38,7 +38,7 @@ class Mouth_Discord extends Mouth {
 		})
 		
 		console.log('...Chargement terminé');
-		this.client.login(this.bot.token);
+		this.client.login("OTYxMjc5NzI1Njc2OTQ1NDgw.Gyoi9G.44uP32ZzxOKSIcgj318fUQ8pBbjW47nOFaqg88");
 	
 		
 	}
