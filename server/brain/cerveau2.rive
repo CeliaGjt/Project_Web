@@ -1,5 +1,11 @@
 // Learn stuff about our users.
 
++ (hello|hi)
+- Hello, how are you ?
+
++ * fine 
+- Great ! Can you remember me, what is your name?
+
 + my name is *
 - <set name=<formal>>Nice to meet you, <get name>.
 - <set name=<formal>><get name>, nice to meet you.
@@ -69,7 +75,11 @@
 - Your favorite <star> is <get fav<star>>
 
 + who is my (boyfriend|girlfriend|spouse){weight=10}
-- <get spouse>  
+- <get spouse> 
+
++ *
+- I'm not sure I understand you fully.
+- Can you repeat, please ?
 
 
 

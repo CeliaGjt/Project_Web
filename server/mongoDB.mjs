@@ -34,18 +34,18 @@ app.post('/:id', (req,res) => {
 })
     app.put('/:id', (req,res) => {
     const id = parseInt(req.params.id)
-    let parking = parkings.find(parking => parking.id === id)
-    parking.name =req.body.name,
-    parking.city =req.body.city,
-    parking.type =req.body.type,
-    res.status(200).json(parking)
+    let bot = bots.find(bot => bot.id === id)
+    bot.name =req.body.name,
+    bot.cerveau =req.body.cerveau,
+    bot.com =req.body.com,
+    res.status(200).json(bot)
 })
 
-app.delete('/parkings/:id', (req,res) => {
+app.delete('/bots/:id', (req,res) => {
     const id = parseInt(req.params.id)
-    let parking = parkings.find(parking => parking.id === id)
-    parkings.splice(parkings.indexOf(parking),1)
-    res.status(200).json(parkings)
+    let bot = bots.find(bot => bot.id === id)
+    bots.splice(bots.indexOf(bot),1)
+    res.status(200).json(bots)
 })
 
 app.listen(8080, () => {
