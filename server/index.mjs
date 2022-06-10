@@ -151,12 +151,9 @@ app.post('/:id', async (req, res) => {
 	console.log(req.params)
 
 	if (!isInt(id)) {
-		//not the expected parameter
-	
 		res.status(400).send('Mauvaise requete');
 	} else {
 		try {
-			// Seul les bot communiquant via l'interface local peuvent être lancer de cette manière
 				try {
 					var worker = new Worker('./Bot_thread.mjs', {
 						workerData: {

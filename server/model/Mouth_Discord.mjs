@@ -42,7 +42,6 @@ class Mouth_Discord extends Mouth {
 		})
 		
 		console.log('...Chargement terminé');
-		console.log(token)
 		this.client.login(token.token);
 	
 		
